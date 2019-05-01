@@ -7,56 +7,78 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie-edge">
         <title>Map</title>
+        <script src="jquery-3.4.0.min.js"></script>
 
         <style>
             #map {height: 100%;}
-                  /* Optional: Makes the sample page fill the window. */
+                  
             html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
             }
         </style>
+
     </head>
 
 
     <body>
         <div>
-
             <button id="backButton" onclick="window.location.href='/index.html'">Back</button>
             <button id="searchButton">Search</button>
         </div>
         <br>
         <div>
             <input id="searchBox" type="text" placeholder="Electronics, paint, sofas, etc."/>
-            <button id="filterButton" onclick="window.location.href='/filterResults.html'">Filter</button>
+            <button id="filterButton">Filter</button>
         </div>
         <br>
         <div>
             <input id="locationBox" type="text" placeholder="Neighborhood, city, state or zip code."/>
         </div>
+        <div>
+            <p id="dataShow"></p>
+        </div>
         <div id="map"></div>
 
         <script>
+            $(document).ready(() => {
+                $('#searchButton').click(() => {
+                    const requestURL = 'centerInfo/' + $('#locationBox').val();
+                    console.log('making ajax request to: ' + requestURL);
+    
+                $.ajax({
+                    url: requestURL,
+                    type: 'GET',
+                    dataType : 'json', 
+                    success: (data) => {
+                        console.log('You received some data!', data);
+                        $('#dataShow').html([data.name, data.job, data.pet]);
+                    }
+                });
+                });
+            });
+
+
             function initialize() {
               //geocode();
               initMap();
             }
 
             function geoCode() {
-
+                
             }
             /**********************************************************
             Function that initializes a google maps object with
             specific properties.
-            ***********************************************************/
+            ***********************************************************/   
             function initMap() {
                 const map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -28.643387, lng: 153.612224},
+                center: {lat: 32.8801, lng: -117.2340},
                 zoom: 12,
                 /***************************************************
-                This code allows us to change the positions of
-                the controls such as Map/Satellite/Zoom.
+                This code allows us to change the positions of 
+                the controls such as Map/Satellite/Zoom. 
                 ****************************************************/
                 mapTypeControl: true,
                 mapTypeControlOptions: {
@@ -76,7 +98,7 @@
                 });
             }
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initialize"
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0rzwq0XGQpt-5tHB9posbSetsCaRma0M&callback=initialize"
         type="text/javascript"></script>
     </body>
 
