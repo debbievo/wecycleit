@@ -22,13 +22,14 @@
 
     <body>
         <div>
-            <button id="backButton">Back</button>
+
+            <button id="backButton" onclick="window.location.href='/index.html'">Back</button>
             <button id="searchButton">Search</button>
         </div>
         <br>
         <div>
             <input id="searchBox" type="text" placeholder="Electronics, paint, sofas, etc."/>
-            <button id="filterButton">Filter</button>
+            <button id="filterButton" onclick="window.location.href='/filterResults.html'">Filter</button>
         </div>
         <br>
         <div>
@@ -48,14 +49,14 @@
             /**********************************************************
             Function that initializes a google maps object with
             specific properties.
-            ***********************************************************/   
+            ***********************************************************/
             function initMap() {
                 const map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: -28.643387, lng: 153.612224},
                 zoom: 12,
                 /***************************************************
-                This code allows us to change the positions of 
-                the controls such as Map/Satellite/Zoom. 
+                This code allows us to change the positions of
+                the controls such as Map/Satellite/Zoom.
                 ****************************************************/
                 mapTypeControl: true,
                 mapTypeControlOptions: {
