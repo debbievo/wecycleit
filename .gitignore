@@ -3,4 +3,3 @@ node_modules/
 # ignore the db/backend for now
 recyclingCenters.db
 create_database.js
-server.js
