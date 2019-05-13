@@ -3,16 +3,37 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Schedule Pickup</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Schedule Pickup</title>
     </head>
     <body>
-        <button onclick="goBack()">Go Back</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
+
+        <div class="backButton">
+            <button class="btn btn-outline-success" onclick="goBack()">Go Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Schedule a Pickup</h3>
+            <br>
+            <button type="button" class="btn btn-success" name="Schedule">Schedule!</button>
+        </div>
 
         <script>
             function goBack() {
               window.history.back();
             }
         </script>
-        <button type="button" name="Schedule">Schedule!</button>
+
     </body>
 </html>

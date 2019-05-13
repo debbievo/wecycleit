@@ -3,12 +3,31 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Center Information</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Center Information</title>
     </head>
     <body>
-        <button onclick="window.location.href='/mapInterface.html'">Go Back</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
 
-        <button onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
+        <div class="backButton">
+            <button class="btn btn-outline-success" onclick="window.location.href='/mapInterface.html'">Go Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Center Information</h3>
+            <br>
+            <button class="btn btn-success" onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
+        </div>
 
     </body>
 </html>

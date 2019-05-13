@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <link rel="stylesheet" href="css/index.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title></title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Home</title>
     </head>
     <body>
-        <div id="homesearch">
-            <p>I'm looking for a</p>
-            <select>
-                <option value="donation">donation center</option>
-                <option value="recycling">recycling center</option>
-            </select>
-            <br>
-            <p>near</p>
-            <input type="text" value="ZIP code">
-            <button onclick="window.location.href='/mapInterface.html'">Search!</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
         </div>
 
-        <br>
-        <div id="homerecycleguide">
-            <p>Not sure if something is recyclable?</p>
-            <br>
-            <button onclick="window.location.href='/recyclingGuide.html'">Check out our Recycling Guide</button>
-        </div>
+        <div class="container">
+            <div id="welcome">
+                <p>Welcome to <span id="appname">WeCycleIt</span>, your one-stop resource for local recycling and donation!</p>
+            </div>
 
+            <br>
+            <div id="homesearch">
+                <div class="form-group">
+                    <p>I'm looking for a</p>
+                    <select class="form-control">
+                        <option>recycling center</option>
+                        <option>donation center</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>near</p>
+                    <input type="text" class="form-control" value="ZIP code">
+                </div>
+                <button type="button" class="btn btn-success" onclick="window.location.href='mapInterface.html'">Search!</button>
+            </div>
+
+            <br>
+            <div id="homerecycleguide">
+                <p>Not sure if something is recyclable?</p>
+                <br>
+                <button type="button" class="btn btn-outline-success" onclick="window.location.href='recyclingGuide.html'">Check out our Recycling Guide</button>
+            </div>
+        </div>
     </body>
 </html>

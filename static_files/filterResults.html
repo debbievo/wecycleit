@@ -3,10 +3,31 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Filter Results</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Filter Results</title>
     </head>
     <body>
-        <button onclick="goBack()">Go Back</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
+
+        <div class="backButton">
+            <button class="btn btn-outline-success" onclick="goBack()">Go Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Filter Search Results</h3>
+            <br>
+            <button class="btn btn-success" onclick="window.location.href='/mapInterface.html'">Apply Filters</button>
+        </div>
 
         <script>
             function goBack() {
@@ -14,6 +35,5 @@
             }
         </script>
 
-        <button onclick="window.location.href='/mapInterface.html'">Apply Filters</button>
     </body>
 </html>
