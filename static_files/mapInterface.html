@@ -60,45 +60,45 @@
                 /**********************************************************
                 Function that initializes a google maps object with
                 specific properties.
-                ***********************************************************/   
+                ***********************************************************/
                 function initMap() {
                     const map = new google.maps.Map(document.getElementById('map'), {
                     center: {lat: 37.7749, lng: -122.4194},
                     zoom: 15,
                     });
-    
+
                     //Uses current location for initial loaded map.
                     getCurrentPosition(map);
-    
+
                     var geocoder = new google.maps.Geocoder();
-    
+
                     $('#searchButton').click(() => {
                         geocodeAddress(geocoder, map);
                     });
-    
+
                     let input = document.getElementById('searchBox');
                     let searchBox = new google.maps.places.SearchBox(input);
-    
+
                     map.addListener('bounds_changed', function() {
                         searchBox.setBounds(map.getBounds());
                     });
-    
+
                     var markers = [];
                     // Listen for the event fired when the user selects a prediction and retrieve
                     // more details for that place.
                     searchBox.addListener('places_changed', function() {
                     var places = searchBox.getPlaces();
-    
+
                     if (places.length == 0) {
                         return;
                     }
-    
+
                     // Clear out the old markers.
                     markers.forEach(function(marker) {
                         marker.setMap(null);
                     });
                     markers = [];
-    
+
                     // For each place, get the icon, name and location.
                     var bounds = new google.maps.LatLngBounds();
                     places.forEach(function(place) {
@@ -113,7 +113,7 @@
                         anchor: new google.maps.Point(17, 34),
                         scaledSize: new google.maps.Size(25, 25)
                     };
-    
+
                     // Create a marker for each place.
                     markers.push(new google.maps.Marker({
                         map: map,
@@ -121,7 +121,7 @@
                         title: place.name,
                         position: place.geometry.location
                     }));
-    
+
                     if (place.geometry.viewport) {
                     // Only geocodes have viewport.
                         bounds.union(place.geometry.viewport);
@@ -132,8 +132,8 @@
                     map.fitBounds(bounds);
                 });
                 }
-    
-    
+
+
                 //Gets the current location of user
                 function getCurrentPosition(map) {
                     if (navigator.geolocation) {
@@ -147,7 +147,7 @@
                         });
                     }
                 }
-    
+
                 /**Calls the geocode API to take a location in the form of
                  **an address (city,state,zip) and gets the latitude,longitude
                  **values to help base the search around.
@@ -171,9 +171,9 @@
                     }
                 }
             </script>
-    
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj_yfqznFti3eizGXS5RUuOFiG8ReolJk&libraries=places&callback=initMap"
+
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap"
             type="text/javascript"></script>
         </body>
-    
+
     </html>
