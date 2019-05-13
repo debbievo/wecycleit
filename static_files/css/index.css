@@ -1,7 +1,55 @@
+.navbar-brand {
+    margin: auto;
+    font-size: xx-large;
+}
+
+.container {
+    margin: auto;
+    padding: 2rem;
+    padding-top: 2rem;
+}
+
+.backButton {
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+#welcome p {
+    font-size: x-large;
+    display: inline-block;
+    text-align: center;
+}
+
+#appname {
+    color: #28a745;
+}
+
 #homesearch p {
+    font-size: large;
     display: inline;
+    line-height: 2;
 }
 
 #homerecycleguide p {
     display: inline;
+    line-height: 2;
+}
+
+#homesearch {
+    vertical-align: middle;
+    margin: auto;
+    text-align: center;
+    /* background-color: red; */
+}
+
+#homerecycleguide {
+    vertical-align: middle;
+    margin: auto;
+    padding-top: 3rem;
+    text-align: center;
+    /* background-color: blue; */
+}
+
+#filterButton {
+    float: right;
 }

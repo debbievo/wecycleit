@@ -6,163 +6,176 @@
         <meta name="author" content="Angela Xu, Julius Guzman, Debbie Vo">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie-edge">
-        <title>Search Results - Map View</title>
-        <script src="jquery-3.4.0.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Center Search</title>
 
         <style>
             #map {height: 100%;}
-                  
             html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
             }
-
-            .center {
-                text-align:center
-            }
         </style>
-
     </head>
 
+
     <body>
-        <h1 class="center">Search Results</h1>
-        <div>
-            <button id="backButton" onclick="window.location.href='/index.html'">Back</button>
-            <button id="searchButton">Search</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
         </div>
-        <br>
-        <div>
-            <input id="searchBox" type="text" placeholder="Electronics, paint, sofas, etc."/>
-            <button id="filterButton" onclick="window.location.href='filterResults.html'">Filter</button>
+
+        <div class="backButton">
+            <button id="backButton" class="btn btn-outline-success" onclick="window.location.href='/index.html'">Back</button>
         </div>
-        <br>
-        <div>
-            <input id="locationBox" type="text" placeholder="Neighborhood, city, state or zip code."/>
+
+        <div class="container">
+            <h3>Recycling & Donation Center Search</h3>
+            <br>
+            <div class="form-group">
+                <input id="searchBox" type="text" class="form-control" placeholder="Recycling center, donation center."/>
+                <input id="locationBox" type="text" class="form-control" placeholder="Neighborhood, city, state or zip code."/>
+                <button id="searchButton" class="btn btn-success">Search</button>
+            </div>
+            <div class="form-group">
+                <!-- <input id="searchBox" type="text" class="form-control" placeholder="Electronics, paint, sofas, etc."/> -->
+                <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+            </div>
+            <div>
+                <p id="dataShow"></p>
+            </div>
         </div>
 
         <div id="map"></div>
 
         <script>
-            /**********************************************************
-            Function that initializes a google maps object with
-            specific properties.
-            ***********************************************************/   
-            function initMap() {
-                const map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 37.7749, lng: -122.4194},
-                zoom: 15,
-                });
-
-                //Uses current location for initial loaded map.
-                getCurrentPosition(map);
-
-                var geocoder = new google.maps.Geocoder();
-
-                $('#searchButton').click(() => {
-                    geocodeAddress(geocoder, map);
-                });
-
-                let input = document.getElementById('searchBox');
-                let searchBox = new google.maps.places.SearchBox(input);
-
-                map.addListener('bounds_changed', function() {
-                    searchBox.setBounds(map.getBounds());
-                });
-
-                var markers = [];
-                // Listen for the event fired when the user selects a prediction and retrieve
-                // more details for that place.
-                searchBox.addListener('places_changed', function() {
-                var places = searchBox.getPlaces();
-
-                if (places.length == 0) {
+                /**********************************************************
+                Function that initializes a google maps object with
+                specific properties.
+                ***********************************************************/   
+                function initMap() {
+                    const map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 37.7749, lng: -122.4194},
+                    zoom: 15,
+                    });
+    
+                    //Uses current location for initial loaded map.
+                    getCurrentPosition(map);
+    
+                    var geocoder = new google.maps.Geocoder();
+    
+                    $('#searchButton').click(() => {
+                        geocodeAddress(geocoder, map);
+                    });
+    
+                    let input = document.getElementById('searchBox');
+                    let searchBox = new google.maps.places.SearchBox(input);
+    
+                    map.addListener('bounds_changed', function() {
+                        searchBox.setBounds(map.getBounds());
+                    });
+    
+                    var markers = [];
+                    // Listen for the event fired when the user selects a prediction and retrieve
+                    // more details for that place.
+                    searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+    
+                    if (places.length == 0) {
+                        return;
+                    }
+    
+                    // Clear out the old markers.
+                    markers.forEach(function(marker) {
+                        marker.setMap(null);
+                    });
+                    markers = [];
+    
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
                     return;
-                }
-
-                // Clear out the old markers.
-                markers.forEach(function(marker) {
-                    marker.setMap(null);
-                });
-                markers = [];
-
-                // For each place, get the icon, name and location.
-                var bounds = new google.maps.LatLngBounds();
-                places.forEach(function(place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-                });
-                map.fitBounds(bounds);
-            });
-            }
-
-
-            //Gets the current location of user
-            function getCurrentPosition(map) {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        let pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        }
-                        console.log("Using current location");
-                        console.log(pos);
-                        map.setCenter(pos);
+                    }
+                    var icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                    };
+    
+                    // Create a marker for each place.
+                    markers.push(new google.maps.Marker({
+                        map: map,
+                        icon: icon,
+                        title: place.name,
+                        position: place.geometry.location
+                    }));
+    
+                    if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
                     });
+                    map.fitBounds(bounds);
+                });
                 }
-            }
-
-            /**Calls the geocode API to take a location in the form of
-             **an address (city,state,zip) and gets the latitude,longitude
-             **values to help base the search around.
-            **/
-            function geocodeAddress(geocoder, resultsMap) {
-                var address = $('#locationBox').val();
-                if(address) {
-                    geocoder.geocode({'address': address}, function(results, status) {
-                        if (status === 'OK') {
-                            console.log(results);
-                            console.log("Using inputted location");
-                            console.log(results[0].geometry.location);
-                            resultsMap.setCenter(results[0].geometry.location);
-                        } else {
-                            alert('Geocode was not successful for the following reason: ' + status);
-                        }
-                    });
+    
+    
+                //Gets the current location of user
+                function getCurrentPosition(map) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            let pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            }
+                            console.log("Using current location");
+                            console.log(pos);
+                            map.setCenter(pos);
+                        });
+                    }
                 }
-                //If location is left blank, will assume using current location.
-                else {
-                    getCurrentPosition(resultsMap);
+    
+                /**Calls the geocode API to take a location in the form of
+                 **an address (city,state,zip) and gets the latitude,longitude
+                 **values to help base the search around.
+                **/
+                function geocodeAddress(geocoder, resultsMap) {
+                    var address = $('#locationBox').val();
+                    if(address) {
+                        geocoder.geocode({'address': address}, function(results, status) {
+                            if (status === 'OK') {
+                                console.log(results);
+                                console.log("Using inputted location");
+                                console.log(results[0].geometry.location);
+                                resultsMap.setCenter(results[0].geometry.location);
+                            } else {
+                                alert('Geocode was not successful for the following reason: ' + status);
+                            }
+                        });
+                    }
+                    //If location is left blank, will assume using current location.
+                    else {
+                        getCurrentPosition(resultsMap);
+                    }
                 }
-            }
-        </script>
-
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXgvybGjtkAWyTYxgQYroygQdvogsZh80&libraries=places&callback=initMap"
-        type="text/javascript"></script>
-    </body>
-
-</html>
+            </script>
+    
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXgvybGjtkAWyTYxgQYroygQdvogsZh80&libraries=places&callback=initMap"
+            type="text/javascript"></script>
+        </body>
+    
+    </html>

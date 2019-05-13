@@ -3,11 +3,30 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Recycling Guide</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Recycling Guide</title>
     </head>
     <body>
-        <h1>Recycling Guide</h1>
-        <button onclick="goBack()">Go Back</button>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
+
+        <div class="backButton">
+            <button class="btn btn-outline-success" onclick="goBack()">Go Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Recycling Guide</h3>
+            <br>
+        </div>
 
         <script>
             function goBack() {
