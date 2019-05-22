@@ -25,11 +25,11 @@ This allows the users to find a center based on the filters they have chosen. Th
 After finding a desired center, users can click on the center to get more information. Depending on the center, they will be able to schedule an appointment with them. This has fields for the user to input their information and send it to the center's email so that the center may respond to their inquiries.
 
 ## UI Screenshots
-### Screen 1: Homepage
+### Homepage
 ![](https://i.imgur.com/MSookWt.png)
 
-### Screen 2: Search Results/Map
-![](https://i.imgur.com/Ghiq4sA.png)
+### Search Results/Map
+![](https://i.imgur.com/ulXArfc.png)
 
 ### Filter Results
 ![](https://i.imgur.com/Xpz7Mkn.png)
@@ -37,8 +37,9 @@ After finding a desired center, users can click on the center to get more inform
 ### Recycling Guide
 ![](https://i.imgur.com/jcQXUAZ.png)
 
-### Center Information
+### Center Information 
 ![](https://i.imgur.com/Zrvcdv5.png)
 
 ### Schedule Pickup
 ![](https://i.imgur.com/2pSjK9J.png)
+
