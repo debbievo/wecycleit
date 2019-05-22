@@ -35,9 +35,10 @@
                 </div>
                 <div class="form-group">
                     <p>near</p>
-                    <input type="text" class="form-control" placeholder="ZIP code">
+                    <input type="text" class="form-control" id="homeZip" placeholder="ZIP code">
                 </div>
-                <button type="button" class="btn btn-success" onclick="window.location.href='mapInterface.html'">Search!</button>
+                <!-- <button type="button" class="btn btn-success" id="submitButton" onclick="window.location.href='mapInterface.html'">Search!</button> -->
+                <button type="button" class="btn btn-success" id="submitButton">Search!</button>
             </div>
 
             <br>
@@ -48,4 +49,21 @@
             </div>
         </div>
     </body>
+
+
+    <script>
+        $("#submitButton").click(function(){
+            $.ajax({
+                url: "zip",
+                type: "POST",
+                data: {zip: $("#homeZip").val()},
+                dataType : "json",
+                success: (data) => {
+                    console.log('You posted some data!', data);
+                    window.location.href = "mapInterface.html";
+                }
+            });
+        });
+
+    </script>
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Pickup Confirmed</title>
+    </head>
+    <body>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
+
+        <div class="backButton">
+            <button class="btn btn-outline-success" onclick="goBack()">Go Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Pickup Confirmed</h3>
+            <br>
+            <p>Curbside pickup has been scheduled.</p>
+
+            <button class="btn btn-success" onclick="window.location.href='/index.html'">Return to Homepage</button>
+        </div>
+
+        <script>
+            function goBack() {
+              window.history.back();
+            }
+        </script>
+
+    </body>
+</html>

@@ -41,22 +41,35 @@
             <h3>Recycling & Donation Center Search</h3>
             <br>
             <div class="form-group">
-                <input id="searchBox" type="text" class="form-control" placeholder="Recycling center, donation center."/>
-                <input id="locationBox" type="text" class="form-control" placeholder="Neighborhood, city, state or zip code."/>
-                <button id="searchButton" class="btn btn-success">Search</button>
+                <!-- <input id="searchBox" type="text" class="form-control" placeholder="Recycling center, donation center."/> -->
+                <select class="form-control">
+                    <option>Recycling center</option>
+                    <option>Donation center</option>
+                </select>
             </div>
+
             <div class="form-group">
-                <!-- <input id="searchBox" type="text" class="form-control" placeholder="Electronics, paint, sofas, etc."/> -->
-                <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+                <input id="locationBox" type="text" class="form-control" placeholder="ZIP code"/>
             </div>
+
+            <button id="searchButton" class="btn btn-success">Search</button>
+            <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+
+            <!-- <div class="form-group">
+                <input id="searchBox" type="text" class="form-control" placeholder="Electronics, paint, sofas, etc."/>
+            </div> -->
+
             <div>
                 <p id="dataShow"></p>
             </div>
+
+            <!-- List of centers -->
+            <div class="list-group" id="centerList"></div>
         </div>
 
-        <div id="map"></div>
+        <!-- <div id="map"></div> -->
 
-        <script>
+        <!-- <script>
                 /**********************************************************
                 Function that initializes a google maps object with
                 specific properties.
@@ -173,7 +186,56 @@
             </script>
 
             <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap"
-            type="text/javascript"></script>
+            type="text/javascript"></script> -->
         </body>
+
+        <script>
+            // populate location box with zip code from previous screen
+            $.ajax({
+                url: "zip",
+                type: "GET",
+                dataType : "json",
+                success: (data) => {
+                    console.log("zip: ", data);
+                    $("#locationBox").val(data.zip);
+                }
+            });
+
+            // get list of centers
+            $.ajax({
+                url: "centers",
+                type: "GET",
+                dataType : "json",
+                success: (data) => {
+                    console.log('You received some data!', data);
+                    for (i = 0; i < data.length; i++) {
+                      var a = document.createElement("a");
+                      var text = document.createTextNode(data[i]);
+                      var url = "centerInfo.html";
+                      // var url = "#";
+                      a.setAttribute("href", url);
+                      a.classList.add("list-group-item");
+                      a.classList.add("list-group-item-action");
+                      a.appendChild(text);
+                      document.getElementById("centerList").appendChild(a);
+                    }
+
+                    // post list item name/id when clicked
+                    $(".list-group-item").click(function(){
+                        console.log("clicked");
+                        console.log($(this).text());
+                        $.ajax({
+                            url: "selectedCenterID",
+                            type: "POST",
+                            data: {centerID: $(this).text()},
+                            dataType : "json",
+                            success: (data) => {
+                                console.log('You posted some data!', data);
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
 
     </html>

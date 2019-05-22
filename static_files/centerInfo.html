@@ -26,22 +26,43 @@
         <div class="container">
             <h3>Center Information</h3>
             <br>
-            <div class="feature_property_name"> Petromax
-            </div>
-            <div class="feature_property_website">
-            </div>
-            <div class="feature_property_hours_of_operation"> Call for current hours of operation
-            </div>
-            <div class="feature_property_phone_number"> 412-279-9040
-            </div>
-            <div class="feature_property_street"> Prestley St
-            </div>
-            <div class="feature_property_address_number"> 301
-            </div>
-            <div class="feature_property_city"> Collier Twp
-            </div>
+            <div id="centerName">Name</div>
+            <div id="centerAddress">Address</div>
+            <div id="centerPhone">Phone</div>
+            <div id="centerHours">Hours</div>
+            <div id="centerMaterials">Materials</div>
+
+            <br>
             <button class="btn btn-success" onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
         </div>
 
     </body>
+
+    <script>
+        // get the center name/id that was clicked in list
+        $.ajax({
+            url: "selectedCenterID",
+            type: "GET",
+            dataType : "json",
+            success: (data) => {
+                console.log('You received some data!', data);
+
+                // get that center's information and populate page
+                var reqURL = "centers/" + data.centerID;
+                $.ajax({
+                    url: reqURL,
+                    type: "GET",
+                    dataType: "json",
+                    success: (data) => {
+                        console.log('You received some data!', data);
+                        $("#centerName").text(data.name);
+                        $("#centerAddress").text(data.job);
+                        $("#centerPhone").text(data.pet);
+                        $("#centerHours").text(data.name);
+                        $("#centerMaterials").text(data.name);
+                    }
+                });
+            }
+        });
+    </script>
 </html>
