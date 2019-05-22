@@ -26,8 +26,43 @@
         <div class="container">
             <h3>Center Information</h3>
             <br>
+            <div>Name: <span id="centerName">Name</span></div>
+            <div>Address: <span id="centerAddress">Address</span></div>
+            <div>Phone: <span id="centerPhone">Phone</span></div>
+            <div>Hours: <span id="centerHours">Hours</span></div>
+            <div>Materials: <span id="centerMaterials">Materials</span></div>
+
+            <br>
             <button class="btn btn-success" onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
         </div>
 
     </body>
+
+    <script>
+        // get the center name/id that was clicked in list
+        $.ajax({
+            url: "selectedCenterID",
+            type: "GET",
+            dataType : "json",
+            success: (data) => {
+                console.log('You received some data!', data);
+
+                // get that center's information and populate page
+                var reqURL = "centers/" + data.centerID;
+                $.ajax({
+                    url: reqURL,
+                    type: "GET",
+                    dataType: "json",
+                    success: (data) => {
+                        console.log('You received some data!', data);
+                        $("#centerName").text(data.name);
+                        $("#centerAddress").text(data.job);
+                        $("#centerPhone").text(data.pet);
+                        $("#centerHours").text(data.name);
+                        $("#centerMaterials").text(data.name);
+                    }
+                });
+            }
+        });
+    </script>
 </html>
