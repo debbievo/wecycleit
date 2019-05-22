@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Angela Xu, Julius Guzman, Debbie Vo">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <title>WeCycleIt - Center Search List View</title>
+  </head>
+
+  <script type="text/javascript">
+    $(document).ready(() => {
+        let base_url = "http://api.earth911.com/earth911";
+        const api_key = "35bebe320eca2310";
+        let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?";
+        const google_api_key = "AIzaSyBcfx34KDAaYz_Xa9T_-l0RCei3vADmrfg";
+
+        $('#searchButton').click(() => {
+            let geocodeRequestURL;
+            let zip_code = $('#zipBox').val();
+
+            if(zip_code){
+                geocodeRequestURL = (geocodeURL + "address=" + zip_code + "&key=" + google_api_key);
+            }
+            else{
+                alert("Please enter a zip code.");
+            }
+
+            let coordinates = $.parseJSON(
+                $.ajax({
+                    url: geocodeRequestURL,
+                    type: 'GET',
+                    dataType: 'json',
+                    crossDomain: true,
+                    async: false
+            }).responseText);
+
+            let lat = coordinates.results[0].geometry.location['lat'];
+            let lgn = coordinates.results[0].geometry.location['lng'];
+
+            let requestURL = (base_url + ".searchLocations" + "?latitude=" + lat  + "&longitude=" 
+                            + lgn + "&max_distance=5" + "&max_results=6" + "&api_key=" + api_key);
+            //Heroku proxy server to bypass CORS error.
+            const proxyURL = "https://cors-anywhere.herokuapp.com/";
+
+            let locationInfo = $.parseJSON(
+                $.ajax({
+                    url: (proxyURL + requestURL),
+                    type: 'GET',
+                    dataType: 'json',
+                    crossDomain: true,
+                    async: false,
+            }).responseText);
+
+            let new_location_info = {}
+
+            for(i=0; i<locationInfo['result'].length; i++) {
+                key = locationInfo['result'][i]['description'];
+                new_location_info[key] = [locationInfo['result'][i]['location_id'], locationInfo['result'][i]['distance']];
+            }
+
+            let full_location_info = [];
+
+            for(i=0; i<Object.keys(new_location_info).length; i++) {
+                let location_id = Object.values(new_location_info)[i][0];
+                let locationDetailsURL = (base_url + ".getLocationDetails" + "?location_id=" + location_id + "&api_key=" + api_key);
+
+                full_location_info.push($.parseJSON(
+                $.ajax({
+                    url: (proxyURL + locationDetailsURL),
+                    type: 'GET',
+                    dataType: 'json',
+                    crossDomain: true,
+                    async: false,
+                }).responseText));
+                
+            }
+
+            let loc_id = Object.values(new_location_info)[0][0];
+            let tempPath = full_location_info[0]['result'][loc_id];
+
+            let loc_id1 = Object.values(new_location_info)[1][0];
+            let tempPath1 = full_location_info[1]['result'][loc_id1];
+
+            let loc_id2 = Object.values(new_location_info)[2][0];
+            let tempPath2 = full_location_info[2]['result'][loc_id2];
+
+            let loc_id3 = Object.values(new_location_info)[3][0];
+            let tempPath3 = full_location_info[3]['result'][loc_id3];
+
+            let loc_id4 = Object.values(new_location_info)[4][0];
+            let tempPath4 = full_location_info[4]['result'][loc_id4];
+
+            let loc_id5 = Object.values(new_location_info)[5][0];
+            let tempPath5 = full_location_info[5]['result'][loc_id5];
+
+            $("#searchList").html(`
+            <h3 style=text-align:center>Search Results</h3>
+                <div> 
+                    
+                    <h5>${tempPath['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath['city'] + " " + tempPath['province'] + ", " + tempPath['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath['hours']}
+                        <br>
+                        ${"Website: " + tempPath['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath['materials'][0]['pickup']}
+                    </p>
+                </div>
+
+                <div>
+                    <h5>${tempPath1['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath1['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath1['city'] + " " + tempPath1['province'] + ", " + tempPath1['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath1['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath1['hours']}
+                        <br>
+                        ${"Website: " + tempPath1['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath1['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath1['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath1['materials'][0]['pickup']}
+                    </p>
+                </div>
+
+                <div> 
+                    
+                    <h5>${tempPath2['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath2['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath2['city'] + " " + tempPath2['province'] + ", " + tempPath2['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath2['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath2['hours']}
+                        <br>
+                        ${"Website: " + tempPath2['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath2['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath2['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath2['materials'][0]['pickup']}
+                    </p>
+                </div>
+
+                <div> 
+                    
+                    <h5>${tempPath3['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath3['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath3['city'] + " " + tempPath3['province'] + ", " + tempPath3['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath3['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath3['hours']}
+                        <br>
+                        ${"Website: " + tempPath3['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath3['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath3['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath3['materials'][0]['pickup']}
+                    </p>
+                </div>
+
+                <div> 
+                    
+                    <h5>${tempPath4['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath4['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath4['city'] + " " + tempPath4['province'] + ", " + tempPath4['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath4['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath4['hours']}
+                        <br>
+                        ${"Website: " + tempPath4['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath4['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath4['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath4['materials'][0]['pickup']}
+                    </p>
+                </div>
+
+                <div> 
+                    
+                    <h5>${tempPath5['description']}</h5>
+                    <p>
+                        ${"Address: " + tempPath5['address']} </br> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        ${tempPath5['city'] + " " + tempPath5['province'] + ", " + tempPath5['postal_code']}</li>
+                        <br>
+                        ${"Phone Number: " + tempPath5['phone']}
+                        <br>
+                        ${"Hours of Operation: " + tempPath5['hours']}
+                        <br>
+                        ${"Website: " + tempPath5['url']}
+                        <br>
+                        ${"Materials Accepted: " + tempPath5['materials'].map(material => `${material.description}`)}
+                        <br>
+                        ${"Dropoff Available? " + tempPath5['materials'][0]['dropoff']}
+                        <br>
+                        ${"Pickup Available? " + tempPath5['materials'][0]['pickup']}
+                    </p>
+                </div>
+                <div> 
+            `);
+
+        });
+    });
+    </script>
+
+    <body>
+        <div id="navtop">
+            <nav class="navbar navbar-dark" style="background-color: #28a745;">
+                <a class="navbar-brand" href="/">WeCycleIt</a>
+            </nav>
+        </div>
+
+        <div class="backButton">
+            <button id="backButton" class="btn btn-outline-success" onclick="window.location.href='/index.html'">Back</button>
+        </div>
+
+        <div class="container">
+            <h3>Recycling & Donation Center Search</h3>
+            <br>
+            <div class="form-group">
+                <select class="form-control">
+                    <option>Recycling center</option>
+                    <option>Donation center</option>
+                </select>
+                <input id="zipBox" type="text" class="form-control" placeholder="Zip code"/>
+                <button id="searchButton" class="btn btn-success">Search</button>
+            </div>
+            <div class="form-group">
+                <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+            </div>
+        </div>
+
+        <div id=searchList></div>
+    </body>
+
+</html>
