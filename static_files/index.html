@@ -37,12 +37,7 @@
                     <p>near</p>
                     <input type="text" class="form-control" id="homeZip" placeholder="ZIP code">
                 </div>
-<<<<<<< HEAD
                 <button type="button" class="btn btn-success" onclick="window.location.href='searchResultsListView.html'">Search!</button>
-=======
-                <!-- <button type="button" class="btn btn-success" id="submitButton" onclick="window.location.href='mapInterface.html'">Search!</button> -->
-                <button type="button" class="btn btn-success" id="submitButton">Search!</button>
->>>>>>> 39357c639bab5663c0d04c62f45f66194a0112f1
             </div>
 
             <br>
@@ -53,25 +48,5 @@
             </div>
         </div>
     </body>
-<<<<<<< HEAD
     
-=======
-
-
-    <script>
-        $("#submitButton").click(function(){
-            $.ajax({
-                url: "zip",
-                type: "POST",
-                data: {zip: $("#homeZip").val()},
-                dataType : "json",
-                success: (data) => {
-                    console.log('You posted some data!', data);
-                    window.location.href = "searchResultsListView.html";
-                }
-            });
-        });
-
-    </script>
->>>>>>> 39357c639bab5663c0d04c62f45f66194a0112f1
 </html>
