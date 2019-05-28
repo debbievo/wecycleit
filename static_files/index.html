@@ -21,23 +21,20 @@
 
         <div class="container">
             <div id="welcome">
-                <p>Welcome to <span id="appname">WeCycleIt</span>, your one-stop resource for local recycling and donation!</p>
+                <p>Welcome to <span id="appname">WeCycleIt</span>, your one-stop resource for local recycling!</p>
             </div>
 
             <br>
             <div id="homesearch">
                 <div class="form-group">
-                    <p>I'm looking for a</p>
-                    <select class="form-control">
-                            <option>Recycling center</option>
-                            <option>Donation center</option>
-                    </select>
+                    <p>I'm looking to recycle</p>
+                    <input id="material_box" type="text" class="form-control" placeholder="What do you want to recycle?"/>
                 </div>
                 <div class="form-group">
                     <p>near</p>
-                    <input type="text" class="form-control" id="homeZip" placeholder="ZIP code">
+                    <input type="text" class="form-control" id="zipBox" placeholder="Enter zip code">
                 </div>
-                <button type="button" class="btn btn-success" onclick="window.location.href='searchResultsListView.html'">Search!</button>
+                <button type="button" class="btn btn-success" id="searchButton" onclick="window.location.href='searchResultsListView.html'">Search!</button>
             </div>
 
             <br>

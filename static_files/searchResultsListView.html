@@ -19,9 +19,9 @@
   <script type="text/javascript">
     $(document).ready(() => {
         let base_url = "http://api.earth911.com/earth911";
-        const api_key = "";
+        const api_key = "35bebe320eca2310";
         let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?";
-        const google_api_key = "";
+        const google_api_key = "AIzaSyBcfx34KDAaYz_Xa9T_-l0RCei3vADmrfg";
 
         $(function () {
             $('[data-toggle="popover"]').popover()
@@ -184,10 +184,13 @@
         </div>
 
         <div class="container">
-            <h3>Search Results</h3>
+            <h3>Looking for recycling centers that accept</h3>
             <br>
             <div class="form-group">
                 <input id="material_box" type="text" class="form-control" placeholder="What do you want to recycle?"/>
+            </div>
+            <div class="form-group">
+                <p style=text-align:center>near</p>
                 <input id="zipBox" type="text" class="form-control" placeholder="Enter zip code"/>
                 <button id="searchButton" class="btn btn-success">Search</button>
             </div>
