@@ -30,10 +30,15 @@
             Distance
             <div class="slidecontainer">
               <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
-              <p><span id="demo"></span> mile(s) away</p>
+              <p><span id="distance_span"></span> mile(s) away</p>
+            </div>
+            <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" id="myNumResults">
+                <p>show <span id="results_span"></span> search results</p>
             </div>
 
             <input type="checkbox" class="check" name="open_now" id="open_now"> Open Now<br>
+            <input type="checkbox" class="check" name="dropoff_available" id="dropoff_available"> Dropoff Available <br>
             <input type="checkbox" class="check" name="pickup_available" id="pickup_available"> Pickup Available <br>
             <br>
             <h4>Donation Categories</h4>
@@ -69,14 +74,24 @@
             function goBack() {
               window.history.back();
             }
-            var slider = document.getElementById("myRange");
-            var output = document.getElementById("demo");
-            output.innerHTML = slider.value; // Display the default slider value
+
+            let distance_slider = document.getElementById("myRange");
+            let distance_output = document.getElementById("distance_span");
+            let results_slider = document.getElementById("myNumResults");
+            let results_output = document.getElementById("results_span");
+            distance_output.innerHTML = distance_slider.value; // Display the default slider value
+            results_output.innerHTML = results_slider.value;
 
             // Update the current slider value (each time you drag the slider handle)
-            slider.oninput = function() {
-              output.innerHTML = this.value;
+            distance_slider.oninput = function() {
+              distance_output.innerHTML = this.value;
             }
+
+            results_slider.oninput = function() {
+                results_output.innerHTML = this.value;
+            }
+
+
         </script>
 
     </body>
