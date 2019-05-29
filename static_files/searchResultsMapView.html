@@ -25,68 +25,20 @@
         </style>
     </head>
 
-    <script>
-    $(document).ready(() => {
-        let base_url = "http://api.earth911.com/earth911";
-        const api_key = "35bebe320eca2310";
-        
-        $('#searchButton').click(() => {
-            const requestURL = (base_url + ".searchLocations?" + + "&api_key=" + api_key);
-            //Heroku proxy server to bypass CORS error.
-            const proxyURL = "https://cors-anywhere.herokuapp.com/";
-
-            $.ajax({
-                url: (proxyURL + requestURL),
-                type: 'GET',
-                dataType: 'json',
-                crossDomain: true,
-                success: (data) => {
-                    console.log("success", data);
-                }
-            })
-        });
-
-    });
-
-
-        /**********************************************************
-        Function that initializes a google maps object with
-        specific properties.
-        ***********************************************************/   
+    <script type=text/javascript>
         function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
+            let map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 37.7749, lng: -122.4194},
             zoom: 15,
             });
 
             let geocoder = new google.maps.Geocoder();
-
-            //Uses current location for initial loaded map.
-            getCurrentPosition(map);
-
-            $('#searchButton').click(() => {
-                geocodeAddress(geocoder, map);
-            });
-        }
-        
-        //Gets the current location of user
-        function getCurrentPosition(map) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    let pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    }
-                    map.setCenter(pos);
-                });
-            }
+            geocodeAddress(geocoder,map);
         }
 
-        /**Calls the geocode API to take a location in the form of
-         ** a zip code.
-        **/
         function geocodeAddress(geocoder, resultsMap) {
-            let address = $('#zipBox').val();
+            let address = "4255 Genessee Ave San Diego";
+            //let address = $('#zipBox').val();
             if(address) {
                 geocoder.geocode({'address': address}, function(results, status) {
                     if (status === 'OK') {
@@ -96,12 +48,68 @@
                     }
                 });
             }
-            //If location is left blank, will assume using current location.
-            else {
-                getCurrentPosition(resultsMap);
-            }
         }
-        
+
+        $(document).ready(() => {
+            let parseURL = new URLSearchParams(document.location.search);
+            let user_material;
+            let user_zip;
+            let user_dist = 10;
+            let user_num_results = 10;
+            let user_dropoff = true;
+            let user_pickup = false;
+            let arr = [];
+
+            if(parseURL.has('material')) {
+            user_material = parseURL.get('material');
+            }
+            if(parseURL.has('zip')) {
+                user_zip = parseURL.get('zip');
+            }
+            if(parseURL.has('distance')) {
+                user_dist = parseURL.get('distance');
+            }
+            if(parseURL.has('numresults')) {
+                user_num_results = parseURL.get('numresults');
+            }
+            if(parseURL.has('dropoff')) {
+                user_dropoff = parseURL.get('dropoff');
+            }
+            if(parseURL.has('pickup')) {
+                user_pickup = parseURL.get('pickup');
+            }
+            if(parseURL.has('address')) {
+                arr = parseURL.getAll('address');
+            }
+
+            $('#material_box').val(user_material);
+            $('#zipBox').val(user_zip);
+
+            console.log(arr);
+
+            $("#filterButton").click(function() {
+                let user_material = $('#material_box').val();
+                let zip_code = $('#zipBox').val();
+
+                 window.document.location = './filterResults.html' + '?material=' + user_material
+                    + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                    + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+            });
+
+
+
+            $("#backButton").click(function() {
+                let user_material = $('#material_box').val();
+                let zip_code = $('#zipBox').val();
+
+                window.document.location = './index.html' + '?material=' + user_material
+                    + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                    + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+            })
+
+
+        });
+
     </script>
 
     <body>
@@ -112,22 +120,23 @@
         </div>
 
         <div class="backButton">
-            <button id="backButton" class="btn btn-outline-success" onclick="window.location.href='/index.html'">Back</button>
+            <button id="backButton" class="btn btn-outline-success">Back</button>
         </div>
 
         <div class="container">
-            <h3>Recycling & Donation Center Search</h3>
+            <h3>Looking for recycling centers that accept</h3>
             <br>
             <div class="form-group">
-                <select class="form-control">
-                    <option>Recycling center</option>
-                    <option>Donation center</option>
-                </select>
-                <input id="zipBox" type="text" class="form-control" placeholder="Zip code"/>
+                <input id="material_box" type="text" class="form-control" placeholder="What do you want to recycle?"/>
+            </div>
+            <div class="form-group">
+                <p style="text-align:center">near</p>
+                <input id="zipBox" type="text" class="form-control" placeholder="Enter zip code"/>
                 <button id="searchButton" class="btn btn-success">Search</button>
             </div>
             <div class="form-group">
-                <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+                <button id="listView" class="btn btn-outline-success">List View</button>
+                <button id="filterButton" class="btn btn-outline-success">Filter results</button>
             </div>
         </div>
 
