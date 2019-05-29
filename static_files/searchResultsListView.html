@@ -60,7 +60,7 @@
         console.log(search_results[0]);
 
         function getSearchResults(material, zip, base_url, api_key, user_max_dist, user_num_results,user_dropoff,user_pickup) {
-            let geocodeRequestURL = (geocodeURL + "address=" + zip + "&key=" + google_api_key);  
+            let geocodeRequestURL = (geocodeURL + "address=" + zip + "&key=" + google_api_key);
 
             //Ajax call that gets the current coordinates of the user.
             let coordinates = $.parseJSON(
@@ -90,11 +90,11 @@
             let mat_ids_sum = "";
 
             for (i = 0; i < mat_ids['num_results']; i++) {
-                mat_ids_sum += mat_ids['result'][i]['material_id'] + "&" 
+                mat_ids_sum += mat_ids['result'][i]['material_id'] + "&"
             }
 
             //Searches recycling centers based on user criterias/filters.
-            let requestURL = (base_url + ".searchLocations?" + "latitude=" + lat  + "&longitude=" 
+            let requestURL = (base_url + ".searchLocations?" + "latitude=" + lat  + "&longitude="
                             + lgn + "&max_distance=" + user_max_dist + "&max_results=" + (Number(user_num_results)+25)
                             +  "&material_id=" + mat_ids_sum + "api_key=" + api_key);
 
@@ -131,7 +131,7 @@
                     dataType: 'json',
                     crossDomain: true,
                     async: false,
-                }).responseText));      
+                }).responseText));
             }
 
             let full_location_info = []
@@ -200,7 +200,7 @@
                         </details>
                     </div>
                     `
-                }).join('')} 
+                }).join('')}
                 `)
             }
             else {
@@ -215,7 +215,7 @@
 
         $('#material_box').keyup(function(event) {
             if (event.keyCode === 13 ) {
-                $('#searchButton').click(); 
+                $('#searchButton').click();
             }
         });
 
@@ -237,7 +237,7 @@
             }
             else {
                 getSearchResults(user_material,zip_code,base_url,api_key,user_dist,user_num_results,user_dropoff,user_pickup);
-            }   
+            }
         });
 
         $("#filterButton").click(function() {

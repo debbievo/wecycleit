@@ -25,9 +25,9 @@
 
         <div class="container">
             <h3>Schedule a Pickup</h3>
-            <br>
+            <!-- <br>
             <p>Scheduling curbside pickup from:</p>
-            <div id="centerName"></div>
+            <div id="centerName"></div> -->
 
             <br>
             <h4>Contact Info</h4>
@@ -85,7 +85,7 @@
                 <input type="text" class="form-control" id="pickupZip">
             </div>
 
-            <button type="button" class="btn btn-success" onclick="window.location.href='/pickupConfirmed.html'" name="Schedule">Schedule</button>
+            <button type="button" class="btn btn-success" id="scheduleButton" name="Schedule">Schedule</button>
         </div>
 
         <script>
@@ -94,14 +94,38 @@
             }
 
             // get the center name/id that was selected in the list in mapInterface
-            $.ajax({
-                url: "selectedCenterID",
-                type: "GET",
-                dataType : "json",
-                success: (data) => {
-                    console.log('You received some data!', data);
-                    $("#centerName").html(data.centerID);;
-                }
+            // $.ajax({
+            //     url: "selectedCenterID",
+            //     type: "GET",
+            //     dataType : "json",
+            //     success: (data) => {
+            //         console.log('You received some data!', data);
+            //         $("#centerName").html(data.centerID);;
+            //     }
+            // });
+
+            $('#scheduleButton').click(() => {
+                $.ajax({
+                    // all URLs are relative to http://localhost:3000/
+                    url: 'schedules',
+                    type: 'POST', // <-- this is POST, not GET
+                    data: {
+                        name: $('#pickupName').val(),
+                        email: $('#pickupEmail').val(),
+                        phone: $('#pickupPhone').val(),
+                        date: $('#pickupDate').val(),
+                        time: $('#pickupTime').val(),
+                        address: $('#pickupAddress1').val(),
+                        other: $('#pickupAddress2').val(),
+                        city: $('#pickupCity').val(),
+                        state: $('#pickupState').val(),
+                        zip: $('#pickupZip').val()
+                    },
+                    success: (data) => {
+                        console.log('You posted some data!', data);
+                        window.location.href="/pickupConfirmed.html"
+                    }
+                });
             });
         </script>
 

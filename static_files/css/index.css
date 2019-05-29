@@ -104,3 +104,8 @@ this is temp until we do something different for guidelines */
   background: #4CAF50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
+
+.info {
+    text-align: center;
+    line-height: 1;
+}

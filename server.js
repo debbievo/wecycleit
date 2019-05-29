@@ -10,26 +10,13 @@ const express = require('express');
 const app = express();
 
 const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database('pets.db');
+const db = new sqlite3.Database('scheduling.db');
 
 app.use(express.static('static_files'));
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true})); // hook up with your app
 
-// GET a list of all usernames
-//
-// To test, open this URL in your browser:
-//   http://localhost:3000/users
-app.get('/centers', (req, res) => {
-   // db.all() fetches all results from an SQL query into the 'rows' variable:
-    db.all('SELECT name FROM users_to_pets', (err, rows) => {
-        console.log(rows);
-        const allNames = rows.map(e => e.name);
-        console.log(allNames);
-        res.send(allNames);
-    });
-});
 
 /** *
 // POST data about a recycling/donation center to insert into the database
@@ -58,28 +45,6 @@ app.post('/centerInfo', (req, res) => {
  **/
 
 
-// GET profile data for a recycling/donation center
-app.get('/centers/:name', (req, res) => {
-  const nameToLookup = req.params.name;
-
-  db.all(
-    'SELECT * FROM users_to_pets WHERE name=$name',
-    // parameters to SQL query:
-    {
-      $name: nameToLookup
-    },
-    // callback function to run when the query finishes:
-    (err, rows) => {
-       console.log(rows);
-       if (rows.length > 0) {
-        res.send(rows[0]);
-       } else {
-        res.send({}); // failed, so return an empty object instead of undefined
-       }
-     }
-   );
-});
-
 // save and access zip code inputted on homepage
 var zip = 0;
 app.post('/zip', (req, res) => {
@@ -93,16 +58,43 @@ app.get('/zip', (req, res) => {
     res.send(zip);
 });
 
-// save and access the selected center to populate centerInfo.html
-var selectedCenterID = 0;
-app.post('/selectedCenterID', (req, res) => {
-    // console.log(req.body);
-    selectedCenterID = req.body;
-    res.send(selectedCenterID);
+
+// store form information into database
+app.post('/schedules', (req, res) => {
+  console.log(req.body);
+
+  db.run(
+    'INSERT INTO list_of_schedules VALUES ($name, $email, $phone, $date, $time, $address, $other, $city, $state, $zip)',
+    // parameters to SQL query:
+    {
+      $name: req.body.name,
+      $email: req.body.email,
+      $phone: req.body.phone,
+      $date: req.body.date,
+      $time: req.body.time,
+      $address: req.body.address,
+      $other: req.body.other,
+      $city: req.body.city,
+      $state: req.body.state,
+      $zip: req.body.zip,
+    },
+    // callback function to run when the query finishes:
+    (err) => {
+      if (err) {
+        res.send({message: 'error in app.post(/users)'});
+      } else {
+        res.send({message: 'successfully run app.post(/users)'});
+      }
+    }
+  );
 });
-app.get('/selectedCenterID', (req, res) => {
-    // console.log(req);
-    res.send(selectedCenterID);
+
+app.get('/schedules', (req, res) => {
+    // get the latest record from the database
+    db.all('SELECT * FROM list_of_schedules ORDER BY rowid DESC LIMIT 1', (err, rows) => {
+        console.log(rows);
+        res.send(rows);
+    });
 });
 
 // start the server at URL: http://localhost:3000/
