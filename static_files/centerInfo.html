@@ -42,6 +42,7 @@
         $(document).ready(() => {
             let paramsString = document.location.search;
             let parseURL = new URLSearchParams(paramsString);
+            console.log(paramsString);
             let user_material;
             let user_zip;
             let user_dist = 10;
@@ -79,6 +80,7 @@
                 console.log(user_zip);
                 user_address = parseURL.get('address');
                 $('#centerAddress').html(user_address + ", " + user_zip);
+                console.log(user_address);
             }
             if(parseURL.has('centerName')){
                 center_name = parseURL.get('centerName');

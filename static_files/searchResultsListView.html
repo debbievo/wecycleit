@@ -182,7 +182,6 @@
                         </h5>
                           <span class="centerAddress">${"<b>" + "Address: " + "</b>" + locations['address']}
                             <br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
                           </span>
                         <br>
@@ -196,6 +195,7 @@
                         <br>
                         ${locations['distance'] + " miles away"}
                         <br>
+                    </span>
                         <details>
                             ${"Website: " } <a href=${locations['url']}>${locations['url']}</a>
                             <br>
@@ -210,7 +210,6 @@
                                 More information
                             </summary>
                         </details>
-                        </span>
                     </div>
                     `
                 }).join('')}
@@ -293,7 +292,8 @@
             window.document.location = './centerInfo.html' + '?material=' + user_material
                     + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
                     + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup + '&centerName=' + center_name
-                    + '&phone='+ center_phone + '&materials=' + center_materials + '&hours=' + center_hours + '&address=' + arr[0];
+                    + '&address=' + arr[0] + '&phone='+ center_phone + '&hours=' + center_hours + '&materials='
+                    + center_materials;
         })
 
         $("#backButton").click(function() {
