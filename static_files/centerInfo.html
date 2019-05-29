@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/config.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <title>WeCycleIt - Center Information</title>
@@ -20,17 +21,17 @@
         </div>
 
         <div class="backButton">
-            <button class="btn btn-outline-success" onclick="window.location.href='/searchResultsListView.html'">Go Back</button>
+            <button class="btn btn-outline-success" id="backButton">Go Back</button>
         </div>
 
         <div class="container">
             <h3>Center Information</h3>
             <br>
-            <div>Name: <span id="centerName">Name</span></div>
-            <div>Address: <span id="centerAddress">Address</span></div>
-            <div>Phone: <span id="centerPhone">Phone</span></div>
-            <div>Hours: <span id="centerHours">Hours</span></div>
-            <div>Materials: <span id="centerMaterials">Materials</span></div>
+            <div><b>Name: </b><span id="centerName">Name</span></div>
+            <div><b>Address: </b><span id="centerAddress">Address</span></div>
+            <div><span id="centerPhone">Phone</span></div>
+            <div><span id="centerHours">Hours</span></div>
+            <div><span id="centerMaterials">Materials</span></div>
 
             <br>
             <button class="btn btn-success" onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
@@ -39,8 +40,8 @@
 
     <script type=text/javascript>
         $(document).ready(() => {
-            let parseURL = new URLSearchParams(document.location.search);
-
+            let paramsString = document.location.search;
+            let parseURL = new URLSearchParams(paramsString);
             let user_material;
             let user_zip;
             let user_dist = 10;
@@ -50,30 +51,64 @@
 
             if(parseURL.has('material')) {
                 user_material = parseURL.get('material');
+                console.log(user_material);
             }
             if(parseURL.has('zip')) {
                 user_zip = parseURL.get('zip');
+                console.log(user_zip);
             }
             if(parseURL.has('distance')) {
                 user_dist = parseURL.get('distance');
+                console.log(user_dist);
             }
             if(parseURL.has('numresults')) {
                 user_num_results = parseURL.get('numresults');
+                console.log(user_num_results);
             }
             if(parseURL.has('dropoff')) {
                 user_dropoff = parseURL.get('dropoff');
+                console.log(user_dropoff);
             }
             if(parseURL.has('pickup')) {
                 user_pickup = parseURL.get('pickup');
+                console.log(user_pickup);
             }
-            if(parseURL.has('material')) {
-                user_material = parseURL.get('material');
-            }
-            if(parseURL.has('zip')) {
+
+            if(parseURL.has('address')){
                 user_zip = parseURL.get('zip');
+                console.log(user_zip);
+                user_address = parseURL.get('address');
+                $('#centerAddress').html(user_address + ", " + user_zip);
             }
-        }
-    )};
+            if(parseURL.has('centerName')){
+                center_name = parseURL.get('centerName');
+                $('#centerName').html(center_name);
+            }
+            if(parseURL.has('phone')){
+                center_phone = parseURL.get('phone');
+                $('#centerPhone').html(center_phone);
+            }
+            if(parseURL.has('hours')){
+                center_hours= parseURL.get('hours');
+                $('#centerHours').html(center_hours);
+                console.log(center_hours);
+            }
+            if(parseURL.has('materials')){
+                center_materials= parseURL.get('materials');
+                $('#centerMaterials').html(center_materials);
+                console.log(center_materials);
+            }
+
+            $("#backButton").click(function() {
+                //let user_material
+                let material_box = $('#material_box').val();
+                let zip_code = $('#zipBox').val();
+
+                window.document.location = './searchResultsListView.html' + '?material=' + user_material
+                        + '&zip=' + user_zip + "&distance=" + user_dist + '&numresults=' + user_num_results
+                        + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+            })
+    });
     </script>
     <!--<script>
         // get the center name/id that was clicked in list

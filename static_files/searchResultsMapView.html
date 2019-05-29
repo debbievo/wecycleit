@@ -107,6 +107,20 @@
                     + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
             });
 
+            $("#listView").click(function() {
+                let user_material = $('#material_box').val();
+                let zip_code = $('#zipBox').val();
+                let arr = []
+
+                // for(i=0; i<search_results.length; i++) {
+                //     arr.push(String(search_results[i]['address']) + " " + String(search_results[i]['city']));
+                // }
+
+                window.document.location = './searchResultsListView.html' + '?material=' + user_material
+                        + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                        + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup +'&address=' + arr;
+
+            })
 
         });
 

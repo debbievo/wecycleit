@@ -2,3 +2,7 @@
 node_modules/
 # ignore the db/backend for now
 scheduling.db
+pets.db
+
+#ignore the API keys
+config.js
