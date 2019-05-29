@@ -86,7 +86,7 @@
                 }).responseText);
 
             let mat_ids_sum = "";
-            console.log(mat_ids);
+
             for (i = 0; i < mat_ids['num_results']; i++) {
                 mat_ids_sum += mat_ids['result'][i]['material_id'] + "&" 
             }
@@ -109,8 +109,6 @@
 
             let new_location_info = {}
 
-            console.log(locationInfo);
-
             //Get the location id, location name and distance.
             for(i=0; i<locationInfo['num_results']; i++) {
                 key = locationInfo['result'][i]['location_id'];
@@ -118,7 +116,6 @@
             }
 
             let temp_location_info = [];
-
 
             //Get the full location info using location id.
             for(i=0; i<Object.keys(new_location_info).length; i++) {
@@ -134,8 +131,6 @@
                     async: false,
                 }).responseText));      
             }
-
-            console.log(temp_location_info);
 
             let full_location_info = []
             for (i=0; i<temp_location_info.length;i++) {
@@ -156,17 +151,19 @@
                 full_location_info.push(info);
             }
 
-            console.log(full_location_info);
-
             let loc_info = [];
 
             //Dropoff and pickup filter.
-            for(i=0; i<user_num_results; i++) {
-                if(user_dropoff == String(full_location_info[i]['materials'][0]['dropoff']) && user_pickup == String(full_location_info[i]['materials'][0]['pickup'])) {
-                    loc_info.push(full_location_info[i]);
+            for(i=0; i<full_location_info.length; i++) {
+                if(loc_info.length == Number(user_num_results)) {
+                    break;
+                }
+                else{
+                    if(user_dropoff == String(full_location_info[i]['materials'][0]['dropoff']) && user_pickup == String(full_location_info[i]['materials'][0]['pickup'])) {
+                        loc_info.push(full_location_info[i]);
+                    }
                 }
             }
-            console.log(loc_info);
 
             if(loc_info.length != 0) {
                 $("#searchList").html(`
