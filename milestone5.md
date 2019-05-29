@@ -1,14 +1,14 @@
 Milestone 5
 ===
 ## Table of Contents
-1. [Rubric #2: Setting, Sequence, Satisfaction](#Setting+Sequence+Satisfaction)
+1. [Rubric #2: Setting, Sequence, Satisfaction](#Setting-Sequence-Satisfaction)
 2. [Rubric #3: UI Screenshots](#UI-Screenshots)
 3. [Rubric #4: UI Improvements](#UI-Improvements)
 4. [Rubric #5: Data Visualization](#Data-Visualization)
 5. [Rubric #6: Visualization Explanation](#Visualization-Explanation)
 6. [Rubric #7: Future Ideas and Improvements](#Future-Ideas)
 
-## Setting+Sequence+Satisfaction
+## Setting, Sequence, Satisfaction
 Homeowners have a larger amount of income and are able to own more products; however, this also leads to the need of offloading their items once they have fallen out of use. For homeowners, it is pretty common to simply throw things in the trash or to leave things like cardboard, water bottles, or batteries piling up, but this app aims to make it easier on them by providing a one-stop resource for recycling.
 
 Our target user population of environmentally conscious and/or charitable homeowners would use the app by searching for the nearest recycling or donation center. By inputting what they're interested in recycling into the app and their zip code, they will be able to see a list of relevant centers near them along with the materials that are accepted. To help lessen the effort needed in recycling and donating, the app provides a filtering option to locate centers that provide pick up options as well.
