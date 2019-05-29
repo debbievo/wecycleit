@@ -26,15 +26,38 @@
         const proxyURL = "https://cors-anywhere.herokuapp.com/";
 
         let parseURL = new URLSearchParams(document.location.search);
+        let user_material;
+        let user_zip;
+        let user_dist = 10;
+        let user_num_results = 10;
+        let user_dropoff = true;
+        let user_pickup = false;
 
-        let user_material = parseURL.get('material');
-        let user_zip = parseURL.get('zip');
+        if(parseURL.has('material')) {
+            user_material = parseURL.get('material');
+        }
+        if(parseURL.has('zip')) {
+            user_zip = parseURL.get('zip');
+        }
+        if(parseURL.has('distance')) {
+            user_dist = parseURL.get('distance');
+        }
+        if(parseURL.has('numresults')) {
+            user_num_results = parseURL.get('numresults');
+        }
+        if(parseURL.has('dropoff')) {
+            user_dropoff = parseURL.get('dropoff');
+        }
+        if(parseURL.has('pickup')) {
+            user_pickup = parseURL.get('pickup');
+        }
+
         $('#material_box').val(user_material);
         $('#zipBox').val(user_zip);
 
-        getSearchResults(user_material,user_zip,base_url,api_key);
+        getSearchResults(user_material,user_zip,base_url,api_key, user_dist, user_num_results,user_dropoff,user_pickup);
 
-        function getSearchResults(material, zip, base_url, api_key) {
+        function getSearchResults(material, zip, base_url, api_key, user_max_dist, user_num_results,user_dropoff,user_pickup) {
             let geocodeRequestURL = (geocodeURL + "address=" + zip + "&key=" + google_api_key);  
 
             //Ajax call that gets the current coordinates of the user.
@@ -68,13 +91,9 @@
                 mat_ids_array.push(Number(mat_ids['result'][i]['material_id']));
             }
             
-            // Default 10 miles and 10 results. Can be changed by filters.
-            let user_max_distance = 10;
-            let user_max_results = 10;
-
             //Searches recycling centers based on user criterias/filters.
             let requestURL = (base_url + ".searchLocations?" + "latitude=" + lat  + "&longitude=" 
-                            + lgn + "&max_distance=" + user_max_distance + "&max_results=" + user_max_results 
+                            + lgn + "&max_distance=" + user_max_dist + "&max_results=" + user_num_results 
                             +  "&material_id=" + mat_ids_array[0] + "&api_key=" + api_key);
 
             console.log(requestURL);
@@ -131,39 +150,58 @@
                 }
                 full_location_info.push(info);
             }
- 
-            $("#searchList").html(`
-            <h3 style=text-align:center>Search Results</h3>
-            ${full_location_info.map(function(locations) {
-                return `
-                <div class="container">
-                    <h5>${locations['description']}</h5>
-                    ${"Address: " + locations['address']}
-                    <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
-                    <br>
-                    ${"Phone Number: " + locations['phone_number']}
-                    <br>
-                    ${"Hours of Operation: " + locations['hours']}
-                    <br>
-                    ${locations['distance'] + " miles away"}
-                    <details>
-                        ${"Website: " } <a href=${locations['url']}>${locations['url']}</a>
+
+            let loc_info = [];
+
+            //Dropoff and pickup filter.
+            for(i=0; i<full_location_info.length; i++) {
+                if(user_dropoff == String(full_location_info[i]['materials'][i]['dropoff']) && user_pickup == String(full_location_info[i]['materials'][i]['pickup'])) {
+                    loc_info.push(full_location_info[i]);
+                }
+            }
+
+            if(loc_info.length != 0) {
+                $("#searchList").html(`
+                <br>
+                <h3 style=text-align:center>Search Results</h3>
+                ${loc_info.map(function(locations) {
+                    return `
+                    <div class="container">
+                        <h5>${locations['description']}</h5>
+                        ${"Address: " + locations['address']}
                         <br>
-                        ${"Other Materials Accepted: " + locations['materials'].map(material => `${material.description}`)}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
                         <br>
-                        ${"Dropoff Available? " + locations['materials'][0]['dropoff']}
+                        ${"Phone Number: " + locations['phone_number']}
                         <br>
-                        ${"Pickup Available? " + locations['materials'][0]['pickup']}
-                        <summary>
-                            More information
-                        </summary>
-                    </details>
-                </div>
+                        ${"Hours of Operation: " + locations['hours']}
+                        <br>
+                        ${locations['distance'] + " miles away"}
+                        <details>
+                            ${"Website: " } <a href=${locations['url']}>${locations['url']}</a>
+                            <br>
+                            ${"Other Materials Accepted: " + locations['materials'].map(material => `${material.description}`)}
+                            <br>
+                            ${"Dropoff Available? " + locations['materials'][0]['dropoff']}
+                            <br>
+                            ${"Pickup Available? " + locations['materials'][0]['pickup']}
+                            <summary>
+                                More information
+                            </summary>
+                        </details>
+                    </div>
+                    `
+                }).join('')} 
+                `)
+            }
+            else {
+                $("#searchList").html(`
+                <br>
+                <h3 style=text-align:center>Sorry there are no matches given your filter settings.</h3>
                 `
-            }).join('')}
-            `)
+                )
+            }
         }
 
         $('#material_box').keyup(function(event) {
@@ -189,10 +227,27 @@
                 alert("Please type in a zip code.")
             }
             else {
-                getSearchResults(user_material,zip_code,base_url,api_key);
+                getSearchResults(user_material,zip_code,base_url,api_key,user_dist,user_num_results,user_dropoff,user_pickup);
             }   
         });
 
+        $("#filterButton").click(function() {
+            let user_material = $('#material_box').val();
+            let zip_code = $('#zipBox').val();
+
+            window.document.location = './filterResults.html' + '?material=' + user_material
+                    + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                    + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+        });
+
+        $("#backButton").click(function() {
+            let user_material = $('#material_box').val();
+            let zip_code = $('#zipBox').val();
+
+            window.document.location = './index.html' + '?material=' + user_material
+                    + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                    + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+        })
     });
     </script>
 
@@ -204,7 +259,7 @@
         </div>
 
         <div class="backButton">
-            <button id="backButton" class="btn btn-outline-success" onclick="window.location.href='/index.html'">Back</button>
+            <button id="backButton" class="btn btn-outline-success">Back</button>
         </div>
 
         <div class="container">
@@ -219,7 +274,7 @@
                 <button id="searchButton" class="btn btn-success">Search</button>
             </div>
             <div class="form-group">
-                <button id="filterButton" class="btn btn-outline-success" onclick="window.location.href='filterResults.html'">Filter results</button>
+                <button id="filterButton" class="btn btn-outline-success">Filter results</button>
             </div>
         </div>
 
