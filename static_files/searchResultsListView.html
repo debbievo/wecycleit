@@ -138,26 +138,28 @@
                 return `
                 <div class="container">
                     <h5>${locations['description']}</h5>
-                    <p>
-                        ${"Address: " + locations['address']}
-                        <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
-                        <br>
-                        ${"Phone Number: " + locations['phone_number']}
-                        <br>
-                        ${"Hours of Operation: " + locations['hours']}
-                        <br>
-                        ${locations['distance'] + " miles away"}
-                        <br>
-                        ${"Website: " + locations['url']}
+                    ${"Address: " + locations['address']}
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
+                    <br>
+                    ${"Phone Number: " + locations['phone_number']}
+                    <br>
+                    ${"Hours of Operation: " + locations['hours']}
+                    <br>
+                    ${locations['distance'] + " miles away"}
+                    <details>
+                        ${"Website: " } <a href=${locations['url']}>${locations['url']}</a>
                         <br>
                         ${"Other Materials Accepted: " + locations['materials'].map(material => `${material.description}`)}
                         <br>
                         ${"Dropoff Available? " + locations['materials'][0]['dropoff']}
                         <br>
                         ${"Pickup Available? " + locations['materials'][0]['pickup']}
-                    </p>
+                        <summary>
+                            More information
+                        </summary>
+                    </details>
                 </div>
                 `
             }).join('')}
