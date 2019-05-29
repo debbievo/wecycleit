@@ -12,6 +12,39 @@
         <script src="js/bootstrap.bundle.min.js"></script>
         <title>WeCycleIt - Home</title>
     </head>
+
+    <script>
+        $(document).ready(() => {
+            $('#material_box').keyup(function(event) {
+                if (event.keyCode === 13 ) {
+                    $('#searchButton').click(); 
+                }
+            });
+
+            $('#zipBox').keyup(function(event) {
+                if(event.keyCode === 13) {
+                    $('#searchButton').click();
+                }
+            });
+
+            $("#searchButton").click(function() {
+                let user_material = $('#material_box').val();
+                let zip_code = $('#zipBox').val();
+
+                if(!user_material) {
+                    alert("Please type in what you want to recycle.")
+                }
+                else if(!zip_code){
+                    alert("Please type in a zip code.")
+                }
+                else {
+                    window.document.location = './searchResultsListView.html' + '?material=' + user_material
+                    + '&zip=' + zip_code;
+                }   
+            });
+
+        });
+    </script>
     <body>
         <div id="navtop">
             <nav class="navbar navbar-dark" style="background-color: #28a745;">
@@ -34,7 +67,7 @@
                     <p>near</p>
                     <input type="text" class="form-control" id="zipBox" placeholder="Enter zip code">
                 </div>
-                <button type="button" class="btn btn-success" id="searchButton" onclick="window.location.href='searchResultsListView.html'">Search!</button>
+                <button type="button" class="btn btn-success" id="searchButton">Search!</button>
             </div>
 
             <br>

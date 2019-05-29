@@ -22,23 +22,20 @@
         const api_key = "";
         let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?";
         const google_api_key = "";
+        //Heroku proxy server to bypass CORS error.
+        const proxyURL = "https://cors-anywhere.herokuapp.com/";
 
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
+        let parseURL = new URLSearchParams(document.location.search);
 
-        $('#searchButton').click(() => {
-            let geocodeRequestURL;
-            let user_material = $('#material_box').val();
-            let zip_code = $('#zipBox').val();
+        let user_material = parseURL.get('material');
+        let user_zip = parseURL.get('zip');
+        $('#material_box').val(user_material);
+        $('#zipBox').val(user_zip);
 
-            //Takes care of case where user doesn't enter zip code.
-            if(user_material && zip_code){
-                geocodeRequestURL = (geocodeURL + "address=" + zip_code + "&key=" + google_api_key);
-            }
-            else{
-                alert("Please enter a zip code.");
-            }
+        getSearchResults(user_material,user_zip,base_url,api_key);
+
+        function getSearchResults(material, zip, base_url, api_key) {
+            let geocodeRequestURL = (geocodeURL + "address=" + zip + "&key=" + google_api_key);  
 
             //Ajax call that gets the current coordinates of the user.
             let coordinates = $.parseJSON(
@@ -48,16 +45,13 @@
                     dataType: 'json',
                     crossDomain: true,
                     async: false
-            }).responseText);
+                }).responseText);
 
             let lat = coordinates.results[0].geometry.location['lat'];
             let lgn = coordinates.results[0].geometry.location['lng'];
 
-            //Heroku proxy server to bypass CORS error.
-            const proxyURL = "https://cors-anywhere.herokuapp.com/";
-
             //Get all of the material ID's related to what material the user is searching for.
-            let req_url = (base_url + ".searchMaterials?" + "query=" + user_material + "&api_key=" + api_key);
+            let req_url = (base_url + ".searchMaterials?" + "query=" + material + "&api_key=" + api_key);
             
             let mat_ids = $.parseJSON(
                 $.ajax({
@@ -168,7 +162,35 @@
                 `
             }).join('')}
             `)
+        }
+
+        $('#material_box').keyup(function(event) {
+            if (event.keyCode === 13 ) {
+                $('#searchButton').click(); 
+            }
         });
+
+        $('#zipBox').keyup(function(event) {
+            if(event.keyCode === 13) {
+                $('#searchButton').click();
+            }
+        });
+
+        $("#searchButton").click(function() {
+            let user_material = $('#material_box').val();
+            let zip_code = $('#zipBox').val();
+
+            if(!user_material) {
+                alert("Please type in what you want to recycle.")
+            }
+            else if(!zip_code){
+                alert("Please type in a zip code.")
+            }
+            else {
+                getSearchResults(user_material,zip_code,base_url,api_key);
+            }   
+        });
+
     });
     </script>
 
