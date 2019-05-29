@@ -75,7 +75,7 @@
 
             //Get all of the material ID's related to what material the user is searching for.
             let req_url = (base_url + ".searchMaterials?" + "query=" + material + "&api_key=" + api_key);
-            
+
             let mat_ids = $.parseJSON(
                 $.ajax({
                     url: (proxyURL + req_url),
@@ -85,16 +85,16 @@
                     async: false,
                 }).responseText);
 
-            let mat_ids_array = [];
-
+            let mat_ids_sum = "";
+            console.log(mat_ids);
             for (i = 0; i < mat_ids['num_results']; i++) {
-                mat_ids_array.push(Number(mat_ids['result'][i]['material_id']));
+                mat_ids_sum += mat_ids['result'][i]['material_id'] + "&" 
             }
-            
+
             //Searches recycling centers based on user criterias/filters.
             let requestURL = (base_url + ".searchLocations?" + "latitude=" + lat  + "&longitude=" 
-                            + lgn + "&max_distance=" + user_max_dist + "&max_results=" + user_num_results 
-                            +  "&material_id=" + mat_ids_array[0] + "&api_key=" + api_key);
+                            + lgn + "&max_distance=" + user_max_dist + "&max_results=" + (Number(user_num_results)+25)
+                            +  "&material_id=" + mat_ids_sum + "api_key=" + api_key);
 
             console.log(requestURL);
 
@@ -109,6 +109,8 @@
 
             let new_location_info = {}
 
+            console.log(locationInfo);
+
             //Get the location id, location name and distance.
             for(i=0; i<locationInfo['num_results']; i++) {
                 key = locationInfo['result'][i]['location_id'];
@@ -116,6 +118,7 @@
             }
 
             let temp_location_info = [];
+
 
             //Get the full location info using location id.
             for(i=0; i<Object.keys(new_location_info).length; i++) {
@@ -131,6 +134,8 @@
                     async: false,
                 }).responseText));      
             }
+
+            console.log(temp_location_info);
 
             let full_location_info = []
             for (i=0; i<temp_location_info.length;i++) {
@@ -151,14 +156,17 @@
                 full_location_info.push(info);
             }
 
+            console.log(full_location_info);
+
             let loc_info = [];
 
             //Dropoff and pickup filter.
-            for(i=0; i<full_location_info.length; i++) {
-                if(user_dropoff == String(full_location_info[i]['materials'][i]['dropoff']) && user_pickup == String(full_location_info[i]['materials'][i]['pickup'])) {
+            for(i=0; i<user_num_results; i++) {
+                if(user_dropoff == String(full_location_info[i]['materials'][0]['dropoff']) && user_pickup == String(full_location_info[i]['materials'][0]['pickup'])) {
                     loc_info.push(full_location_info[i]);
                 }
             }
+            console.log(loc_info);
 
             if(loc_info.length != 0) {
                 $("#searchList").html(`
