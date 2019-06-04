@@ -30,7 +30,6 @@
         const api_key = "35bebe320eca2310";
         const proxyURL = "https://cors-anywhere.herokuapp.com/";
 
-
         let parseURL = new URLSearchParams(document.location.search);
         let user_material;
         let user_zip;
@@ -98,8 +97,6 @@
             }
             full_location_info.push(info);
         }
-
-        console.log(full_location_info);
 
         $(document).ready(() => {
             $('#material_box').val(user_material);
@@ -219,7 +216,7 @@
         </div>
     </body>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1E5GGGdY8_roiqOsxWjuVgZcFumrqDLI&callback=initMap"
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYl-ZxlOlflfq2O6VBrEVjhIgv0rkhUoU&callback=initMap"
     type="text/javascript"></script>
 
 </html>

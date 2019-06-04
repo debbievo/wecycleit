@@ -8,11 +8,23 @@
         <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/jquery-3.4.0.min.js"></script>
-        <script src="js/config.js"></script>
+        <!--<script src="js/config.js"></script>-->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <title>WeCycleIt - Center Information</title>
+
+
+        <style>
+            #map {height: 100%;}
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
     </head>
+
     <body>
         <div id="navtop">
             <nav class="navbar navbar-dark" style="background-color: #28a745;">
@@ -36,13 +48,129 @@
             <br>
             <button class="btn btn-success" onclick="window.location.href='/schedulePickup.html'">Schedule Pickup</button>
         </div>
+        <div id="map"></div>
     </body>
 
     <script type=text/javascript>
+        let base_url = "http://api.earth911.com/earth911";
+        const api_key = "35bebe320eca2310";
+        const proxyURL = "https://cors-anywhere.herokuapp.com/";
+
+        let parseURL = new URLSearchParams(document.location.search);
+
+        let loc_ids;
+
+        if(parseURL.has('ids')) {
+            loc_ids = parseURL.get('ids');
+        }
+
+        let temp_location_info = [];
+
+        //Get the full location info using location id.
+        for(i=0; i<loc_ids.length; i++) {
+            let locationDetailsURL = (base_url + ".getLocationDetails" + "?location_id=" + loc_ids + "&api_key=" + api_key);
+
+            temp_location_info.push($.parseJSON(
+            $.ajax({
+                url: (proxyURL + locationDetailsURL),
+                type: 'GET',
+                dataType: 'json',
+                crossDomain: true,
+                async: false,
+            }).responseText));
+        }
+
+        let full_location_info = []
+
+        for (i=0; i<temp_location_info.length;i++) {
+            let location_id = Object.keys(temp_location_info[i]['result']);
+            let tempPath = temp_location_info[i]['result'][location_id];
+            let info = {
+                description : tempPath['description'],
+                address : tempPath['address'],
+                geocode: {lat: Number(tempPath['latitude']), lng: Number(tempPath['longitude'])},
+                city : tempPath['city'],
+                state : tempPath['province'],
+                zip_code : tempPath['postal_code'],
+                phone_number : tempPath['phone'],
+                hours : tempPath['hours'],
+                materials : tempPath['materials'],
+                url : tempPath['url'],
+            }
+            full_location_info.push(info);
+        }
+
+        let marker;
+        let infowindow;
+        let labelIndex = 0;
+
+        function initMap() {
+            let map = new google.maps.Map(document.getElementById('map'), {
+                center: full_location_info[0]['geocode'],
+                zoom: 12,
+            });
+            
+            setMarkers(map);   
+        }
+
+        function setMarkers(map) {
+            for (i=0; i<full_location_info.length; i++) {
+                let temp_content = `
+                    <div class="container">
+                    <span class="searchClick">
+                        <h5>
+                          <span class="centerName">${full_location_info[i]['description']}</span>
+                        </h5>
+                          <span class="centerAddress">${"<b>" + "Address: " + "</b>" + full_location_info[i]['address']}
+                            <br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            ${full_location_info[i]['city'] + ", " + full_location_info[i]['state'] + " " + full_location_info[i]['zip_code']}</li>
+                          </span>
+                        <br>
+                        <span class="centerPhone">
+                          ${"Phone Number: " +full_location_info[i]['phone_number']}
+                        </span>
+                        <br>
+                        <span class="centerHours">
+                          ${"Hours of Operation: " +full_location_info[i]['hours']}
+                        </span>
+                        <br>
+                        <br>
+                    </span>
+                        <details>
+                            ${"Website: " } <a href=${full_location_info[i]['url']}>${full_location_info[i]['url']}</a>
+                            <br>
+                            <span class="centerMaterials">
+                              ${"Other Materials Accepted: "+ full_location_info[i]['materials'].map(material => `${material.description}`)}
+                            </span>
+                            <br>
+                            ${"Dropoff Available? " + full_location_info[i]['materials'][0]['dropoff']}
+                            <br>
+                            ${"Pickup Available? " + full_location_info[i]['materials'][0]['pickup']}
+                            <summary>
+                                More information
+                            </summary>
+                        </details>
+                    </div>
+                    `;
+                infowindow = new google.maps.InfoWindow();
+                marker = new google.maps.Marker({
+                    position: full_location_info[i]['geocode'],
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                    title: full_location_info[i]['description'],
+                    content: temp_content
+                });
+                google.maps.event.addListener(marker,'click', function() {
+                    infowindow.setContent(this.content);
+                    infowindow.open(this.getMap(),this);
+                });
+            }
+        }
+
         $(document).ready(() => {
             let paramsString = document.location.search;
             let parseURL = new URLSearchParams(paramsString);
-            console.log(paramsString);
             let user_material;
             let user_zip;
             let user_dist = 10;
@@ -101,6 +229,7 @@
                 console.log(center_materials);
             }
 
+
             $("#backButton").click(function() {
                 //let user_material
                 let material_box = $('#material_box').val();
@@ -141,4 +270,6 @@
     -->
 
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYl-ZxlOlflfq2O6VBrEVjhIgv0rkhUoU&callback=initMap"
+    type="text/javascript"></script>
 </html>
