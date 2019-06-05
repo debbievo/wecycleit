@@ -99,4 +99,4 @@ Final Project Deliverables
 [Link to Google Slide Presentation](https://docs.google.com/presentation/d/13uqpLaSeaBkvFlO52zyCrAF0Yfut0-E3r1uDlWydql4/edit?usp=sharing "WeCycleIt Presentation")
 
 ## Demo Video
-[Link to Demo Video](https://drive.google.com/file/d/1pp8y0NcJICtsaz15VgN8ykkWwCpWN2BA/view?usp=sharing "WeCycleIt Demo Video")
+[Link to Demo Video](https://drive.google.com/file/d/1psRRCaka4WPxYCih91W31Ay3TaEFjgH9/view?usp=sharing "WeCycleIt Demo Video")
