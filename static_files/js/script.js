@@ -64,6 +64,35 @@ $(document).ready(() => {
             + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
         }
     });
+    $("#backButton").click(function() {
+          let user_material = $('#material_box').val();
+          let zip_code = $('#zipBox').val();
+          let prevWindow = document.referrer;
+
+          let parseURL = new URLSearchParams(prevWindow);
+
+          if(parseURL.has('index')){
+                  window.document.location = './index.html' + '?material=' + user_material
+                          + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                          + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+          } else if (parseURL.has('searchResultsListView')) {
+              window.document.location = './searchResultsListView.html' + '?material=' + user_material
+                      + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                      + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+          } else if (parseURL.has('searchResultsMapView')) {
+              window.document.location = './searchResultsMapView.html' + '?material=' + user_material
+                      + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+                      + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
+          // } else if (parseURL.has('centerInfo')) {
+          //     window.document.location = './centerInfo.html' + '?material=' + user_material
+          //             + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
+          //             + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup + '&centerName=' + center_name
+          //             + '&phone='+ center_phone + '&materials=' + center_materials + '&hours=' + center_hours + '&address=' + arr[0];
+
+          }else {
+              window.history.back();
+          }
+      });
 
 });
 
