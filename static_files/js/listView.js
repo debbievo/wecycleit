@@ -159,37 +159,46 @@ function initializePage(){
             ${loc_info.map(function(locations,index) {
                 return `
                 <div class="container">
-                <button class="btn btn-outline-success centerInfoClick">
+                <button class="btn btn-outline-success btn-block centerInfoClick">
                     <h5>
                       <span class="centerName">${locations['description']}</span>
                     </h5>
-                      <span class="centerAddress">${"<b>" + "Address: " + "</b>" + locations['address']}
-                        <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
-                      </span>
-                    <br>
-                    <span class="centerPhone">
-                      ${"Phone Number: " +locations['phone_number']}
+                    <u>Address:</u><br>
+                    <span class="centerAddress">
+                      ${locations['address']}
+                      <br>
+                      ${locations['city'] + ", " + locations['state'] + " " + locations['zip_code']}</li>
                     </span>
                     <br>
+                    <u>Phone Number:</u>
+                    <span class="centerPhone">
+                      ${locations['phone_number']}
+                    </span>
+                    <br>
+                    <u>Hours of Operation:</u><br>
                     <span class="centerHours">
-                      ${"Hours of Operation: " + locations['hours']}
+                      ${locations['hours']}
                     </span>
                     <br>
                     ${locations['distance'] + " miles away from " + user_zip}
-                    <br>
                 </button>
                     <details>
-                        ${"Website: " } <a href=${locations['url']}>${locations['url']}</a>
+                        <u>Website:</u> <a href=${locations['url']}>${locations['url']}</a>
                         <br>
+                        <u>Other Materials Accepted:</u>
                         <span class="centerMaterials">
-                          ${"Other Materials Accepted: "+ locations['materials'].map(material => `${material.description}`)}
+                          ${locations['materials'].map(material => `${material.description}`)}
                         </span>
                         <br>
-                        ${"Dropoff Available? " + locations['materials'][0]['dropoff']}
+                        <u>Dropoff Available?</u>
+                        <span class="dropoff">
+                            ${locations['materials'][0]['dropoff']}
+                        </span>
                         <br>
-                        ${"Pickup Available? " + locations['materials'][0]['pickup']}
+                        <u>Pickup Available?</u>
+                        <span class="pickup">
+                        ${locations['materials'][0]['pickup']}
+                        </span>
                         <summary>
                             More information
                         </summary>
@@ -329,4 +338,29 @@ function initializePage(){
     $("#test").click(function(){
         console.log(centerArr);
     })
+
+    $(".centerMaterials").each(function(){
+        var text = $(this).text();
+        $(this).text(text.replace(/,/g, ", "));
+    });
+
+    $(".dropoff").each(function(){
+        var text = $(this).text().trim();
+        if(text == "true") {
+            $(this).text(text.replace("true", "Yes"));
+        } else {
+            $(this).text(text.replace("false", "No"));
+        }
+    });
+
+    $(".pickup").each(function(){
+        var text = $(this).text().trim();
+        console.log(text);
+        if(text == "true") {
+            $(this).text(text.replace("true", "Yes"));
+        } else {
+            $(this).text(text.replace("false", "No"));
+        }
+    });
+
 }

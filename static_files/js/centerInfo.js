@@ -67,32 +67,38 @@ function setMarkers(map) {
                 <h5>
                   <span class="centerName">${full_location_info[i]['description']}</span>
                 </h5>
-                  <span class="centerAddress">${"<b>" + "Address: " + "</b>" + full_location_info[i]['address']}
+                  <b>Address:</b><br>
+                  <span class="centerAddress">
+                  ${full_location_info[i]['address']}
                     <br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     ${full_location_info[i]['city'] + ", " + full_location_info[i]['state'] + " " + full_location_info[i]['zip_code']}</li>
                   </span>
                 <br>
+                <b>Phone Number: </b>
                 <span class="centerPhone">
-                  ${"Phone Number: " +full_location_info[i]['phone_number']}
+                  ${full_location_info[i]['phone_number']}
                 </span>
                 <br>
+                <b>Hours of Operation:</b><br>
                 <span class="centerHours">
-                  ${"Hours of Operation: " +full_location_info[i]['hours']}
+                  ${full_location_info[i]['hours']}
                 </span>
                 <br>
                 <br>
             </span>
                 <details>
-                    ${"Website: " } <a href=${full_location_info[i]['url']}>${full_location_info[i]['url']}</a>
+                    <b>Website:</b> <a href=${full_location_info[i]['url']}>${full_location_info[i]['url']}</a>
                     <br>
+                    <b>Other Materials Accepted: </b>
                     <span class="centerMaterials">
-                      ${"Other Materials Accepted: "+ full_location_info[i]['materials'].map(material => `${material.description}`)}
+                      ${full_location_info[i]['materials'].map(material => `${material.description}`)}
                     </span>
                     <br>
-                    ${"Dropoff Available? " + full_location_info[i]['materials'][0]['dropoff']}
+                    <b>Dropoff Available? </b>
+                    ${full_location_info[i]['materials'][0]['dropoff']}
                     <br>
-                    ${"Pickup Available? " + full_location_info[i]['materials'][0]['pickup']}
+                    <b>Pickup Available? </b>
+                    ${full_location_info[i]['materials'][0]['pickup']}
                     <summary>
                         More information
                     </summary>
@@ -167,10 +173,10 @@ $.ajax({
         success: (data) => {
             console.log('You received some data!', data);
             console.log(data[0].name);
-            $('#centerName').html(data[0].name);
-            $('#centerAddress').html(data[0].address);
-            $('#centerPhone').html(data[0].phone);
-            $('#centerHours').html(data[0].hours);
-            $('#centerMaterials').html(data[0].materials);
+            $('#centerName').html("<b>Name: </b>" + data[0].name);
+            $('#centerAddress').html("<b>Address:</b><br>" + data[0].address);
+            $('#centerPhone').html("<b>Phone Number: </b>" + data[0].phone);
+            $('#centerHours').html("<b>Hours of Operation:</b><br>" + data[0].hours);
+            $('#centerMaterials').html("<b>Materials Accepted:</b><br>" + data[0].materials);
         },
 });

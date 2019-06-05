@@ -97,7 +97,7 @@ app.get('/schedules', (req, res) => {
     });
 });
 
-// store form information into database
+// store center information into database
 app.post('/moreInfo', (req, res) => {
   console.log(req.body);
 
