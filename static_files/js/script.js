@@ -34,18 +34,6 @@ if(parseURL.has('material')) {
 if(parseURL.has('zip')) {
     user_zip = parseURL.get('zip');
 }
-var availableTags = [
-      "aerosol cans",
-      "aluminum",
-      "bottles",
-      "bottle",
-      "cans",
-      "metal",
-      "plastic",
-      "plastics",
-      "battery",
-      "batteries",
-    ];
 
 function initializePage(){
   $( "#material_box" ).autocomplete({
