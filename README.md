@@ -9,11 +9,11 @@ This web app is targeted towards homeowners looking to get rid of their junk whe
 of their homes, but it can be used by anyone that's looking to recycle an item.
 
 ## Getting Started
-1.Run "npm install" to install all dependencies.
-2.Run "node create_database.js" to create local SQLite database.
-3.Run "node server.js" to initialize server.
-4.Open browser and go to "http://localhost:3000/"
-5.Search away!
+*1.Run "npm install" to install all dependencies.
+*2.Run "node create_database.js" to create local SQLite database.
+*3.Run "node server.js" to initialize server.
+*4.Open browser and go to "http://localhost:3000/"
+*5.Search away!
 
 ## Authors
 * **Debbie Vo** -- https://github.com/debbievo
