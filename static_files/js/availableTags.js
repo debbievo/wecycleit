@@ -257,7 +257,7 @@ var availableTags = [
       "perfumes",
       "propane tanks",
       "smoke detectors",
-      "x-rays"
+      "x-rays",
       "bike tires",
       "chemistry sets",
       "cooking oil",
@@ -288,7 +288,7 @@ var availableTags = [
       "lice shampoo",
       "musical instruments",
       "ornaments",
-      "surfboards"
+      "surfboards",
       "organic food waste",
       "yard waste",
       "brush",
