@@ -97,6 +97,40 @@ app.get('/schedules', (req, res) => {
     });
 });
 
+// store form information into database
+app.post('/moreInfo', (req, res) => {
+  console.log(req.body);
+
+  db.run(
+    'INSERT INTO list_of_centers VALUES ($name, $address, $phone, $hours, $materials)',
+    // parameters to SQL query:
+    {
+      $name: req.body.name,
+      $address: req.body.address,
+      $phone: req.body.phone,
+      $hours: req.body.hours,
+      $materials: req.body.materials,
+    },
+    // callback function to run when the query finishes:
+    (err) => {
+      if (err) {
+        res.send({message: 'error in app.post(/centers)'});
+      } else {
+        res.send({message: 'successfully run app.post(/centers)'});
+      }
+    }
+  );
+});
+
+app.get('/moreInfo', (req, res) => {
+    // get the latest record from the database
+    db.all('SELECT * FROM list_of_centers ORDER BY rowid DESC LIMIT 1', (err, rows) => {
+        console.log(rows);
+        res.send(rows);
+    });
+});
+
+
 // start the server at URL: http://localhost:3000/
 app.listen(3000, () => {
   console.log('Server started at http://localhost:3000/');
