@@ -22,6 +22,7 @@ function initializePage(){
     let user_dropoff = true;
     let user_pickup = false;
 
+    //checks url for specified inputs
     if(parseURL.has('material')) {
         user_material = parseURL.get('material');
     }
@@ -230,6 +231,7 @@ function initializePage(){
         }
     });
 
+    //form validation to make sure that there are inputs when the user is trying to search
     $("#searchButton").click(function() {
         let user_material = $('#material_box').val();
         let zip_code = $('#zipBox').val();
@@ -269,9 +271,12 @@ function initializePage(){
 
     })
 
+    //gets all elements with the specified class name
     let divs = document.getElementsByClassName("centerInfoClick");
 
+    //iterates through the elements one by one
     Object.entries(divs).map((object,index)=> {
+        //makes the element clickable
         object[1].addEventListener("click",function(){
             console.log("Hello " + this + " (" + this.innerHTML + ") from map method...");
 
@@ -280,6 +285,7 @@ function initializePage(){
             // let center_id = $(this).attr('id');
             // console.log(center_id);
 
+            //checks the current elements for the specified classname and takes the text from it
             let center_name = $.trim($(this).children().children(".centerName").text());
             console.log(center_name);
 
@@ -302,6 +308,8 @@ function initializePage(){
                arr.push(String(search_results[i]['address']) + " " + String(search_results[i]['city']));
                loc_id_arr.push(search_results[i]['loc_id']);
             }
+
+            //posts data from current element into database
             $.ajax({
                 // all URLs are relative to http://localhost:3000/
                 url: 'moreInfo',
@@ -315,18 +323,16 @@ function initializePage(){
                 },
                 success: (data) => {
                     console.log('You posted some data!', data);
-                    // window.location.href="/centerInfo.html"
+                    //upon success, goes to the center info page to display it in more detail
                     window.document.location = './centerInfo.html' + '?material=' + user_material
                            + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
                            + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup + '&ids=' + loc_id_arr[0];
                 }
             });
-            // window.document.location = './centerInfo.html' + '?material=' + user_material
-            //        + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
-            //        + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup + '&ids=' + loc_id_arr[0];
         });
     });
 
+    //ensures that the page that it will go back to can still have the correct search inputs
     $("#backButton").click(function() {
         let user_material = $('#material_box').val();
         let zip_code = $('#zipBox').val();
@@ -336,13 +342,16 @@ function initializePage(){
                 + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
     })
 
+    //hides the other materials section to remove eye bloat
     $(".hideMaterials").hide();
 
+    //for styling the center material text
     $(".centerMaterials").each(function(){
         var text = $(this).text();
         $(this).text(text.replace(/,/g, ", "));
     });
 
+    //for readability and styling
     $(".dropoff").each(function(){
         var text = $(this).text().trim();
         if(text == "true") {

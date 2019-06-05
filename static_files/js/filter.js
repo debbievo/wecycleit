@@ -3,8 +3,10 @@ function goBack() {
 }
 
 $(document).ready(() => {
+    //gets the current values for these ids
     $("#distance_span").html($("#myRange").val());
     $("#results_span").html($("#myNumResults").val());
+
     let parseURL = new URLSearchParams(document.location.search);
     let user_material;
     let user_zip;
@@ -13,6 +15,7 @@ $(document).ready(() => {
     let user_dropoff = true;
     let user_pickup = false;
 
+    //checks the url for specified inputs
     if(parseURL.has('material')) {
         user_material = parseURL.get('material');
     }
@@ -32,12 +35,15 @@ $(document).ready(() => {
         user_pickup = parseURL.get('pickup');
     }
 
+    //sets the value of the ids
     $("#myRange").val(user_dist);
     $("#myNumResults").val(user_num_results);
 
+    //gets the ids
     $("#distance_span").html(user_dist);
     $("#results_span").html(user_num_results);
 
+    //checks whether user has checkmarked it
     if(user_dropoff == String(true)) {
         $('#dropoff_available').prop('checked',true);
     }
@@ -45,6 +51,7 @@ $(document).ready(() => {
         $('#dropoff_available').prop('checked',false);
     }
 
+    //checks whether user has checkmarked it
     if(user_pickup == String(true)) {
         $('#pickup_available').prop('checked',true);
     }
@@ -63,7 +70,7 @@ $(document).ready(() => {
         user_num_results = this.value;
     })
 
-
+    //changes value based off of whether checkbox is checked
     $('#dropoff_available').click(function(){
         if($(this).is(":checked")){
             user_dropoff = String(true);
@@ -73,6 +80,7 @@ $(document).ready(() => {
         }
     });
 
+    //changes value based off of whether checkbox is checked
     $('#pickup_available').click(function(){
         if($(this).is(":checked")){
             user_pickup = String(true);
@@ -82,7 +90,7 @@ $(document).ready(() => {
         }
     });
 
-
+    //goes to the list view page upon selecting the desired filters and changes the url based off of them
     $('#filtersButton').click(function() {
         window.document.location = './searchResultsListView.html' + '?material=' + user_material
             + '&zip=' + user_zip + '&distance=' + user_dist + '&numresults=' + user_num_results

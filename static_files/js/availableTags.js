@@ -1,3 +1,4 @@
+//all possible searchable tags that will be displayed when typing
 var availableTags = [
       "aerosol cans",
       "aluminum",

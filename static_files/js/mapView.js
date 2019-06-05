@@ -11,6 +11,7 @@ let user_dropoff = true;
 let user_pickup = false;
 let loc_ids;
 
+//checks the URL for specified information
 if(parseURL.has('material')) {
     user_material = parseURL.get('material');
 }

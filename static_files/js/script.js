@@ -9,7 +9,7 @@ let user_dist = 10;
 let user_num_results = 10;
 let user_dropoff = true;
 let user_pickup = false;
-
+//the following if statements check the url to see if it can get specified information
 if(parseURL.has('material')) {
     user_material = parseURL.get('material');
 }
@@ -36,10 +36,12 @@ if(parseURL.has('zip')) {
 }
 
 function initializePage(){
+    //this checks the tags from the availableTags.js and will display a list of possible choices based on input
   $( "#material_box" ).autocomplete({
     source: availableTags
   });
 
+  //gets the value inside of the text boxes
   $('#material_box').val(user_material);
   $('#zipBox').val(user_zip);
 
@@ -55,6 +57,7 @@ function initializePage(){
       }
   });
 
+  //forces users to make an input and then proceeds to the next page based on their input
   $("#searchButton").click(function() {
       let user_material = $('#material_box').val();
       let zip_code = $('#zipBox').val();
@@ -71,13 +74,14 @@ function initializePage(){
           + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
       }
   });
+
   $("#backButton").click(function() {
         let user_material = $('#material_box').val();
         let zip_code = $('#zipBox').val();
         let prevWindow = document.referrer;
 
         let parseURL = new URLSearchParams(prevWindow);
-
+        //statements that check what the previous window had for the url, depending on what it has, the link may change
         if(parseURL.has('index')){
                 window.document.location = './index.html' + '?material=' + user_material
                         + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
@@ -102,6 +106,7 @@ function initializePage(){
     });
 }
 
+// General function for a back button, this is on pages where the previous pages do not take info from the URL
 function goBack() {
   window.history.back();
 }

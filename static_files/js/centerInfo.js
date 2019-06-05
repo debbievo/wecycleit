@@ -129,7 +129,7 @@ $(document).ready(() => {
     let user_num_results = 10;
     let user_dropoff = true;
     let user_pickup = false;
-
+    //checks url for specified inputs
     if(parseURL.has('material')) {
         user_material = parseURL.get('material');
         console.log(user_material);
@@ -157,15 +157,16 @@ $(document).ready(() => {
 
 
     $("#backButton").click(function() {
-        //let user_material
         let material_box = $('#material_box').val();
         let zip_code = $('#zipBox').val();
-
+        //goes to previous page but appends the correct inputs to ensure user does not have to redo search
         window.document.location = './searchResultsListView.html' + '?material=' + user_material
                 + '&zip=' + user_zip + "&distance=" + user_dist + '&numresults=' + user_num_results
                 + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
     })
 });
+
+// Grabs the latest database record and displays on page
 $.ajax({
         url: 'moreInfo',
         type: 'GET',
@@ -173,6 +174,7 @@ $.ajax({
         success: (data) => {
             console.log('You received some data!', data);
             console.log(data[0].name);
+            // Insert data in respective divs
             $('#centerName').html("<b>Name: </b>" + data[0].name);
             $('#centerAddress').html("<b>Address:</b><br>" + data[0].address);
             $('#centerPhone').html("<b>Phone Number: </b>" + data[0].phone);
