@@ -2,9 +2,6 @@ $(document).ready(function(){
     initializePage();
 })
 
-function goBack() {
-  window.history.back();
-}
 function initializePage(){
     $('#scheduleButton').click(() => {
         if(!$('#pickupName').val()) {
