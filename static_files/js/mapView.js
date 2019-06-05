@@ -71,8 +71,13 @@ for (i=0; i<temp_location_info.length;i++) {
 }
 
 $(document).ready(() => {
+    // $( "#material_box" ).autocomplete({
+    //   source: availableTags
+    // });
     $('#material_box').val(user_material);
     $('#zipBox').val(user_zip);
+    document.getElementById("material_box").disabled = true;
+    document.getElementById("zipBox").disabled = true;
 
     $("#backButton").click(function() {
         let user_material = $('#material_box').val();

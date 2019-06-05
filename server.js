@@ -17,34 +17,6 @@ app.use(express.static('static_files'));
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true})); // hook up with your app
 
-
-/** *
-// POST data about a recycling/donation center to insert into the database
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}));
-app.post('/centerInfo', (req, res) => {
-  console.log(req.body);
-
-  db.run(
-    'INSERT INTO center_info VALUES ($name, $latitude, $longtitude)',
-      {
-        $name: req.body.name,
-        $phone: req.body.phone,
-        $address: req.body.address,
-      },
-    // callback function to run when the query finishes:
-      (err) => {
-        if (err) {
-          res.send({message: 'error in app.post(/centerInfo)'});
-        } else {
-          res.send({message: 'successfully run app.post(/centerInfo)'});
-        }
-      }
-   );
- });
- **/
-
-
 // save and access zip code inputted on homepage
 var zip = 0;
 app.post('/zip', (req, res) => {

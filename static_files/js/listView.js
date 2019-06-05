@@ -185,8 +185,8 @@ function initializePage(){
                     <details>
                         <u>Website:</u> <a href=${locations['url']}>${locations['url']}</a>
                         <br>
-                        <u>Other Materials Accepted:</u>
-                        <span class="centerMaterials">
+                        Other Materials Are Accepted, Click on the Center to see a list
+                        <span class="centerMaterials hideMaterials">
                           ${locations['materials'].map(material => `${material.description}`)}
                         </span>
                         <br>
@@ -335,9 +335,8 @@ function initializePage(){
                 + '&zip=' + zip_code + "&distance=" + user_dist + '&numresults=' + user_num_results
                 + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
     })
-    $("#test").click(function(){
-        console.log(centerArr);
-    })
+
+    $(".hideMaterials").hide();
 
     $(".centerMaterials").each(function(){
         var text = $(this).text();
