@@ -1,11 +1,24 @@
+/* Javascript file for the search functionality
+ * of the app.
+ *
+ * To get the location -- uses google maps geocoding api
+ * To get recycling centers -- uses earth911 api
+ * 
+ * Contains template to format the data that's shown in 
+ * searchResultsListView.html
+ * 
+ */
+
 $(document).ready(function(){
     initializePage();
-})
+});
 
 function initializePage(){
+    //Autocomplete feature when searching.
     $( "#material_box" ).autocomplete({
       source: availableTags
     });
+    //Variables required for API calls
     let base_url = "http://api.earth911.com/earth911";
     const api_key = config.earth_api_key;
     let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -14,6 +27,7 @@ function initializePage(){
     //Heroku proxy server to bypass CORS error.
     const proxyURL = "https://cors-anywhere.herokuapp.com/";
 
+    //URL query variables
     let parseURL = new URLSearchParams(document.location.search);
     let user_material;
     let user_zip;
@@ -42,11 +56,19 @@ function initializePage(){
         user_pickup = parseURL.get('pickup');
     }
 
+    //Gets value from input boxes
     $('#material_box').val(user_material);
     $('#zipBox').val(user_zip);
-
+    
+    //Calls the getSearchResults function and stores data into search_results
     let search_results = getSearchResults(user_material,user_zip,base_url,api_key, user_dist, user_num_results,user_dropoff,user_pickup);
 
+    /*** Calls the google maps geocoding API to get the latitude/longitude of the given location.
+     *   Calls the earth911 API several times to get all of the possible recycling centers per the search results
+     *   then (if chosen by user) filters them and creates another list of possible recyling centers. 
+     * 
+     *   Formats the information received in a template that's displayed in the searchResultsListView html file.
+     */
     function getSearchResults(material, zip, base_url, api_key, user_max_dist, user_num_results,user_dropoff,user_pickup) {
         let geocodeRequestURL = (geocodeURL + "address=" + zip + "&key=" + google_api_key);
 
@@ -77,6 +99,7 @@ function initializePage(){
 
         let mat_ids_sum = "";
 
+        //Put the material ids together in a string separated by & for query URL.
         for (i = 0; i < mat_ids['num_results']; i++) {
             mat_ids_sum += mat_ids['result'][i]['material_id'] + "&"
         }
@@ -97,7 +120,7 @@ function initializePage(){
 
         let new_location_info = {}
 
-        //Get the location id, location name and distance.
+        //Get the location id, location name and distance of the center.
         for(i=0; i<locationInfo['num_results']; i++) {
             key = locationInfo['result'][i]['location_id'];
             new_location_info[key] = [locationInfo['result'][i]['description'], locationInfo['result'][i]['distance']];
@@ -120,7 +143,9 @@ function initializePage(){
             }).responseText));
         }
 
-        let full_location_info = []
+        //Create a new array that has objects containing the complete information we need to show results.
+        let full_location_info = [];
+
         for (i=0; i<temp_location_info.length;i++) {
             let location_id = Object.keys(temp_location_info[i]['result']);
             let tempPath = temp_location_info[i]['result'][location_id];
@@ -139,6 +164,9 @@ function initializePage(){
             }
             full_location_info.push(info);
         }
+
+        //Array to store the objects that qualify given the users filters selection.
+        //This is ultimately what's shown in the html file.
         let loc_info = [];
 
         //Dropoff and pickup filter.
@@ -152,7 +180,9 @@ function initializePage(){
                 }
             }
         }
-//id="center${index}"
+
+
+        //Template for the information shown in the html file.
         if(loc_info.length != 0) {
             $("#searchList").html(`
             <br>
@@ -219,12 +249,14 @@ function initializePage(){
         return loc_info;
     }
 
+    //Allows user to press enter to trigger search.
     $('#material_box').keyup(function(event) {
         if (event.keyCode === 13 ) {
             $('#searchButton').click();
         }
     });
 
+    //Allows user to press enter to trigger search.
     $('#zipBox').keyup(function(event) {
         if(event.keyCode === 13) {
             $('#searchButton').click();
@@ -247,6 +279,7 @@ function initializePage(){
         }
     });
 
+    //Leads to filter button html file. Sends it information through URL.
     $("#filterButton").click(function() {
     let user_material = $('#material_box').val();
     let zip_code = $('#zipBox').val();
@@ -256,6 +289,7 @@ function initializePage(){
             + '&dropoff=' + user_dropoff + '&pickup=' + user_pickup;
     });
 
+    //Leads to map html file. Sends it information through URL.
     $("#mapView").click(function() {
         let user_material = $('#material_box').val();
         let zip_code = $('#zipBox').val();
@@ -347,13 +381,13 @@ function initializePage(){
 
     //for styling the center material text
     $(".centerMaterials").each(function(){
-        var text = $(this).text();
+        let text = $(this).text();
         $(this).text(text.replace(/,/g, ", "));
     });
 
     //for readability and styling
     $(".dropoff").each(function(){
-        var text = $(this).text().trim();
+        let text = $(this).text().trim();
         if(text == "true") {
             $(this).text(text.replace("true", "Yes"));
         } else {
@@ -361,9 +395,9 @@ function initializePage(){
         }
     });
 
+    //for readability and styling
     $(".pickup").each(function(){
-        var text = $(this).text().trim();
-        console.log(text);
+        let text = $(this).text().trim();
         if(text == "true") {
             $(this).text(text.replace("true", "Yes"));
         } else {

@@ -1,3 +1,10 @@
+/* Javascript file for the filters functionality of the app.
+ *
+ * Takes filter information from listview through URL.
+ * Sends modified filter information back to listview through URL.
+ * 
+ */
+
 function goBack() {
     window.history.back();
 }
@@ -7,6 +14,7 @@ $(document).ready(() => {
     $("#distance_span").html($("#myRange").val());
     $("#results_span").html($("#myNumResults").val());
 
+    //URL query variables
     let parseURL = new URLSearchParams(document.location.search);
     let user_material;
     let user_zip;

@@ -1,7 +1,19 @@
+/* Javascript file for the map functionality of the app.
+ *
+ * Queries the URL to get information needed.
+ * 
+ * Calls the google maps api to display markers for 
+ * each of the search results along with their corresponding
+ * information.
+ * 
+ */
+
+//Variables required for API calls
 let base_url = "http://api.earth911.com/earth911";
 const api_key = config.earth_api_key;
 const proxyURL = "https://cors-anywhere.herokuapp.com/";
 
+//URL query variables
 let parseURL = new URLSearchParams(document.location.search);
 let user_material;
 let user_zip;
@@ -35,6 +47,7 @@ if(parseURL.has('ids')) {
     loc_ids = loc_ids.split(',');
 }
 
+//Calls the earth911 api to get recycling center info using location id that was passed in.
 let temp_location_info = [];
 
 //Get the full location info using location id.
@@ -51,6 +64,7 @@ for(i=0; i<loc_ids.length; i++) {
         }).responseText));
 }
 
+//Take only the info we needed from temp_location_info and store into full_location_info.
 let full_location_info = []
 
 for (i=0; i<temp_location_info.length;i++) {
@@ -72,14 +86,13 @@ for (i=0; i<temp_location_info.length;i++) {
 }
 
 $(document).ready(() => {
-    // $( "#material_box" ).autocomplete({
-    //   source: availableTags
-    // });
+    //Populate the boxes.
     $('#material_box').val(user_material);
     $('#zipBox').val(user_zip);
     document.getElementById("material_box").disabled = true;
     document.getElementById("zipBox").disabled = true;
 
+    //Sends info back to list view when user clicks back button.
     $("#backButton").click(function() {
         let user_material = $('#material_box').val();
         let zip_code = $('#zipBox').val();
@@ -90,6 +103,12 @@ $(document).ready(() => {
     });
 
 });
+
+/** Calls the google maps API to create a map.
+ * 
+ *  It creates and displays markers that has each 
+ *  recycling center along with the information assigned to it.
+ */
 
 let marker;
 let infowindow;

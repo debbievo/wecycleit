@@ -1,3 +1,15 @@
+/* Javascript file for the center info functionality of the app.
+ *
+ * Gets recycling center information from database and displays it.
+ * 
+ * Calls the google maps api to display marker for 
+ * the given recycling center along with its corresponding
+ * information.
+ * 
+ */
+
+
+ //Variables for API calls
 let base_url = "http://api.earth911.com/earth911";
 const api_key = config.earth_api_key;
 const proxyURL = "https://cors-anywhere.herokuapp.com/";
@@ -26,6 +38,7 @@ for(i=0; i<loc_ids.length; i++) {
     }).responseText));
 }
 
+//Take only the info we needed from temp_location_info and store into full_location_info.
 let full_location_info = []
 
 for (i=0; i<temp_location_info.length;i++) {
@@ -45,6 +58,13 @@ for (i=0; i<temp_location_info.length;i++) {
     }
     full_location_info.push(info);
 }
+
+
+/** Calls the google maps API to create a map.
+ * 
+ *  It creates and displays markers that has the
+ *  recycling center along with the information assigned to it.
+ */
 
 let marker;
 let infowindow;
@@ -121,6 +141,7 @@ function setMarkers(map) {
 }
 
 $(document).ready(() => {
+    //Variables for URL query.
     let paramsString = document.location.search;
     let parseURL = new URLSearchParams(paramsString);
     let user_material;
@@ -154,7 +175,6 @@ $(document).ready(() => {
         user_pickup = parseURL.get('pickup');
         console.log(user_pickup);
     }
-
 
     $("#backButton").click(function() {
         let material_box = $('#material_box').val();
