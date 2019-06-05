@@ -3,6 +3,7 @@
  * Takes filter information from listview through URL.
  * Sends modified filter information back to listview through URL.
  * 
+ * https://github.com/debbievo/WeCycleIt
  */
 
 function goBack() {

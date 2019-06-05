@@ -1,6 +1,16 @@
+/**  Javascript code for the homepage and recycling page.
+ *   It allows for the back button functionality and
+ *   recycling guide functionality.
+ * 
+ *  https://github.com/debbievo/WeCycleIt
+ * 
+ */
+
 $(document).ready(() => {
   initializePage();
 });
+
+//URL query variables
 let parseURL = new URLSearchParams(document.location.search);
 
 let user_material;

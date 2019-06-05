@@ -6,6 +6,8 @@
  * each of the search results along with their corresponding
  * information.
  * 
+ *  https://github.com/debbievo/WeCycleIt
+ * 
  */
 
 //Variables required for API calls

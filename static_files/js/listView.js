@@ -7,6 +7,8 @@
  * Contains template to format the data that's shown in 
  * searchResultsListView.html
  * 
+ *  https://github.com/debbievo/WeCycleIt
+ * 
  */
 
 $(document).ready(function(){

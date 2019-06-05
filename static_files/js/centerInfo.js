@@ -6,8 +6,8 @@
  * the given recycling center along with its corresponding
  * information.
  * 
+ * https://github.com/debbievo/WeCycleIt
  */
-
 
  //Variables for API calls
 let base_url = "http://api.earth911.com/earth911";

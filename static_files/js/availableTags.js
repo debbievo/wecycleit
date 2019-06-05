@@ -1,4 +1,5 @@
 //all possible searchable tags that will be displayed when typing
+//used for autocomplete functionality.
 var availableTags = [
       "aerosol cans",
       "aluminum",
