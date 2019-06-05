@@ -1,16 +1,26 @@
+/***********************************************
+ Javascript code for scheduling confirmation
+ page. Grabs latest record from scheduling
+ database and displays the information on the
+ page.
+
+ https://github.com/debbievo/WeCycleIt
+***********************************************/
+
+
+// Grabs the latest database record and displays on page
 $.ajax({
         url: 'schedules',
         type: 'GET',
         dataType : 'json',
         success: (data) => {
             console.log('You received some data!', data);
-            // console.log(data[0].name);
+
+            // Format date and time into more user-friendly format
             var date = data[0].date + "T" + data[0].time + ":00";
             var dateFormatted = moment(date).format("dddd, MMMM D, h:mm A");
 
-            // console.log(date);
-            // console.log(dateFormatted);
-
+            // Insert data in respective divs
             $('#insertName').html(data[0].name);
             $('#insertDate').html(dateFormatted);
             $('#insertAddress1').html(data[0].address);

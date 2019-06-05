@@ -1,8 +1,17 @@
+/***********************************************
+ Javascript code for scheduling page. Validates
+ form inputs, posts form inputs to be stored
+ into scheduling database.
+
+ https://github.com/debbievo/WeCycleIt
+***********************************************/
+
 $(document).ready(function(){
     initializePage();
 })
 
 function initializePage(){
+    // Form validation check
     $('#scheduleButton').click(() => {
         if(!$('#pickupName').val()) {
             alert("Please type in your name.")
@@ -23,11 +32,10 @@ function initializePage(){
         } else if(!$('#pickupZip').val()){
             alert("Please type in a zip code.")
         }
-        else {
+        else {  // If inputs are valid, post data to be stored in database
             $.ajax({
-                // all URLs are relative to http://localhost:3000/
                 url: 'schedules',
-                type: 'POST', // <-- this is POST, not GET
+                type: 'POST',
                 data: {
                     name: $('#pickupName').val(),
                     email: $('#pickupEmail').val(),

@@ -1,19 +1,23 @@
+/* Top bar app name styling */
 .navbar-brand {
     margin: auto;
     font-size: xx-large;
 }
 
+/* Container positioning */
 .container {
     margin: auto;
     padding: 2rem;
     padding-top: 2rem;
 }
 
+/* Back button positioning */
 .backButton {
     padding-top: 1rem;
     padding-left: 1rem;
 }
 
+/* Welcome blurb styling */
 #welcome p {
     font-size: x-large;
     display: inline-block;
@@ -24,6 +28,7 @@
     color: #28a745;
 }
 
+/* Homepage content styling */
 #homesearch p {
     font-size: large;
     display: inline;
@@ -39,7 +44,6 @@
     vertical-align: middle;
     margin: auto;
     text-align: center;
-    /* background-color: red; */
 }
 
 #homerecycleguide {
@@ -47,9 +51,9 @@
     margin: auto;
     padding-top: 2rem;
     text-align: center;
-    /* background-color: blue; */
 }
 
+/* Filter button styling */
 #filterButton {
     float: right;
 }
