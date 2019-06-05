@@ -113,3 +113,18 @@ this is temp until we do something different for guidelines */
     text-align: center;
     line-height: 1;
 }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+table, th, td {
+  border: 1px solid rgba(0,0,0,.15);
+}
