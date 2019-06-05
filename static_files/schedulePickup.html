@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="css/index.css">
         <script src="js/jquery-3.4.0.min.js"></script>
+        <script src="js/schedule.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <title>WeCycleIt - Schedule Pickup</title>
@@ -87,47 +88,6 @@
 
             <button type="button" class="btn btn-success" id="scheduleButton" name="Schedule">Schedule</button>
         </div>
-
-        <script>
-            function goBack() {
-              window.history.back();
-            }
-
-            // get the center name/id that was selected in the list in mapInterface
-            // $.ajax({
-            //     url: "selectedCenterID",
-            //     type: "GET",
-            //     dataType : "json",
-            //     success: (data) => {
-            //         console.log('You received some data!', data);
-            //         $("#centerName").html(data.centerID);;
-            //     }
-            // });
-
-            $('#scheduleButton').click(() => {
-                $.ajax({
-                    // all URLs are relative to http://localhost:3000/
-                    url: 'schedules',
-                    type: 'POST', // <-- this is POST, not GET
-                    data: {
-                        name: $('#pickupName').val(),
-                        email: $('#pickupEmail').val(),
-                        phone: $('#pickupPhone').val(),
-                        date: $('#pickupDate').val(),
-                        time: $('#pickupTime').val(),
-                        address: $('#pickupAddress1').val(),
-                        other: $('#pickupAddress2').val(),
-                        city: $('#pickupCity').val(),
-                        state: $('#pickupState').val(),
-                        zip: $('#pickupZip').val()
-                    },
-                    success: (data) => {
-                        console.log('You posted some data!', data);
-                        window.location.href="/pickupConfirmed.html"
-                    }
-                });
-            });
-        </script>
 
     </body>
 </html>
