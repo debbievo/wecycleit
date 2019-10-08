@@ -53,7 +53,7 @@ of their homes, but it can be used by anyone that's looking to recycle an item.
 
 
 ### App Evaluation
-- **Category:** Social Networking / Music
+- **Category:** Local Search
 - **Mobile:** This app would be primarily developed for viewing on a mobile device but is just as viable on a computer. Functionality wouldn't be limited to mobile devices, since it is a web application that could be viewed in either a mobile or desktop browser.
 - **Story:** Users can input their zip code preferences and items they wish to recycle in order to see a list of possible recycling centers within that area. The user can then click on those centers in order to see more information about them. 
 - **Market:** Any individual could choose to use this app, as it is open for any individual that is interested in finding recycling centers
