@@ -8,7 +8,6 @@
 2. [UI Screenshots](#UI-Screenshots)
 4. [Data Visualization](#Data-Visualization)
 5. [Visualization Explanation](#Visualization-Explanation)
-5. [Source Code and Functionality](#Source-Code-and-Functionality)
 6. [Demo Video](#Demo-Video)
 
 ## Overview
@@ -170,69 +169,6 @@ Optional:
 In terms of searching and displaying content on the centers, we used the Earth911 API in order to pull from a database of recycling/donation centers in the US. To effectively use the API, we used Description, Address, City, State, Zip Code, Phone Number, Hours, Materials, URL, and Distance to display a list of recycling centers based on the search queries. 
 
 For Schedule Pickup, we used SQLite to implement a databse that would hold user information and confirm that they had scheduled a pick up with the center. 
-
-
-## Source Code and Functionality
-
-### index.html
-* Functionality: App homepage, has search fields for material and location, has link to recycling guide
-
-### searchResultsListView.html
-* Functionality: Shows results for recycling centers matching search query in list form
-
-### searchResultsMapView.html
-* Functionality: Shows results for recycling centers matching search query in map form
-
-### filterResults.html
-* Functionality: Has options to filter search results by distance and dropoff/pickup availability
-
-### centerInfo.html
-* Functionality: Displays more information about a recycling center, shows location of center on a map, has link to schedule curbside pickup
-
-### schedulePickup.html
-* Functionality: A form for users to schedule curbside pickup
-
-### pickupConfirmed.html
-* Functionality: Confirmation page for pickup scheduling
-
-### recyclingGuide.html
-* Functionality: Page containing FAQ about recycling
-
-### create_database.js
-* Functionality: Creates databases for storing scheduling form information and center information
-
-### server.js
-* Functionality: Contains app backend and sqlite code for posting and getting information from the databases
-
-### listView.js
-* Functionality: Creates a list of centers based on user search query and filters, also posts text inputs and stores info into center info database.
-
-### mapView.js
-* Functionality: Contains functions that place markers on the map based on the latitude and longitude of the listView search results
-
-### filter.js
-* Functionality: Updates the slider based on user defined range and keeps tracks of which boxes are checked for user preferred filtering
-
-### script.js
-* Functionality: Validates text input and enables searching based on those inputs by using the Earth911 API.
-
-### availableTags.js
-* Functionality: Contains a list of available materials for autocomplete
-
-### centerInfo.js
-* Functionality: Uses an ajax call to get the center info data from the database depending on the center that was clicked on and display it for the user to see. A marker is also placed on a map to show its location
-
-### schedule.js
-* Functionality: Validates scheduling form input, posts form inputs and stores info into scheduling info database.
-
-### confirmation.js
-* Functionality: Contains ajax call to grab latest record from scheduling info database and display information on page
-
-### index.css
-* Functionality: General page styling, contains styling for buttons, slider, text, and more.
-
-### map.css
-* Functionality: Extra styling for map pages, separated from index.css because of possible conflicting styles for body and head.
 
 ## Demo Video
 [Link to Demo Video](https://drive.google.com/file/d/1pp8y0NcJICtsaz15VgN8ykkWwCpWN2BA/view?usp=sharing "WeCycleIt Demo Video")
