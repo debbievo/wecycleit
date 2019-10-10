@@ -159,7 +159,7 @@ Optional:
 ## Visualization Explanation
 In terms of searching and displaying content on the centers, we used the Earth911 API in order to pull from a database of recycling/donation centers in the US. To effectively use the API, we used Description, Address, City, State, Zip Code, Phone Number, Hours, Materials, URL, and Distance to display a list of recycling centers based on the search queries. 
 
-For Schedule Pickup, we used SQLite to implement a databse that would hold user information and confirm that they had scheduled a pick up with the center. 
+For Schedule Pickup, we used SQLite to implement a database that would hold user information and confirm that they had scheduled a pick up with the center. 
 
 ## Demo Video
 [Link to Demo Video](https://drive.google.com/file/d/1pp8y0NcJICtsaz15VgN8ykkWwCpWN2BA/view?usp=sharing "WeCycleIt Demo Video")
