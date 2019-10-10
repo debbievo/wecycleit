@@ -3,7 +3,6 @@
 ## Table of Contents
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
-1. [Storyboards](#Storyboards)
 2. [Prototypes](#Prototypes)
 2. [UI Screenshots](#UI-Screenshots)
 4. [Data Visualization](#Data-Visualization)
@@ -116,14 +115,6 @@ Optional:
 * Filter Result -> Toggle settings
 * Center Info -> Jumps to Schedule Pickup if available 
 * Schedule Pickup -> Text fields to be modified.
-
-## Storyboards
-### Storyboard 1
-![](https://i.imgur.com/tMjwoQq.jpg)
-
-### Storyboard 2
-![](https://i.imgur.com/wwOaRMx.jpg)
-
 
 ## Prototypes
 
